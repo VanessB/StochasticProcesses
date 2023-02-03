@@ -1,0 +1,313 @@
+\section{Основные сведения} \label{sec:basics}
+
+Случайные процессы~--- математические объекты,
+построенные с использованием теории вероятностей для исследования и моделирования реальных явлений,
+растянутых во времени и имеющих стохастическую (случайную) природу.
+
+\begin{definition}
+    \label{definition:basics:stochastic_process}
+    Пусть задано вероятностное пространство $ (\Omega, \setfamily, \proba) $ и множество $ T \subseteq \mathbb{R} $.
+    Функция $ X: \Omega \times T \to \mathbb{R} $ называется \defemph{случайным процессом},
+    если $ \forall t \in T $ функция $ X(\cdot, t) \equiv X_t: \Omega \to \mathbb{R} $ измерима
+    (то есть является случайной величиной).
+\end{definition}
+
+Случайный процесс можно трактовать как семейство случайных величин, параметризованное $ t \in T $.
+Параметр $ t $ обычно интерпретируется как время.
+Если $ T $ состоит из одного элемента, случайный процесс является обычной случайной величиной,
+если $ T $ конечно~--- случайным вектором.
+Параметр $ \omega $, как и при описании случайных величин, часто опускается.
+
+\begin{definition}
+    \label{definition:basics:stochastic_process_slice}
+    При фиксированном $ t_0 \in T $ случайная величина $ X_{t_0} $ называется \defemph{сечением случайного процесса} $ X $.
+\end{definition}
+
+\begin{definition}
+    \label{definition:basics:stochastic_process_realization}
+    При фиксированном $ \omega_0 \in \Omega $ функция $ X(\omega_0, \cdot ) $ называется \defemph{реализацией случайного процесса} $ X $.
+\end{definition}
+
+Также случайный процесс можно считать особой случайной величиной, принимающей значения в пространстве функций;
+при такой интерпретации, однако, отдельных усилий стоит определить, что такое вероятностное распределение на функциях.
+В рамках семинаров данный вопрос освещаться со всей полнотой и строгостью не будет,
+поэтому приведём из этой области лишь основные факты и определения,
+требующиеся для работы со случайными процессами.
+
+Рассмотрим произвольный случайный процесс $ X $.
+В силу единства вероятностного пространства,
+любой вектор вида $ (X_{t_1}, \ldots, X_{t_n}) $ (где $ t_i \in T $) является случайным вектором.
+
+\begin{definition}
+    \label{definition:basics:finite_distribution}
+    Вероятностное распределение вектора вида $ (X_{t_1}, \ldots, X_{t_n}) $ называется \defemph{конечномерным распределением случайного процесса} $ X $.
+    Его функция распределения обозначается как $ F_X(x_1, \ldots, x_n; t_1, \ldots, t_n) $.
+\end{definition}
+
+Функции распределений векторов, составленных из сечений случайного процесса,
+обладают всеми известными вам свойствами функций распределений случайных векторов,
+а также ещё двумя дополнительными свойствами:
+
+\begin{statement}
+    \label{statement:basics:finite_distribution_properties}
+    Функции конечномерных распределений случайного процесса $ X $ обладают следующими свойствами:
+    \begin{enumerate}
+        \item
+            \defemph{(условие симметрии)}
+            Для любой перестановки $ k_i $ выполнено равенство
+            \[
+                F_X(x_1, \ldots, x_n; t_1, \ldots, t_n) = F_X(x_{k_1}, \ldots, x_{k_n}; t_{k_1}, \ldots, t_{k_n})
+            \]
+        \item
+            \defemph{(условие согласованности)}
+            Для любого индекса $ k \in \{1, \ldots, n\} $ выполнено
+            \[
+                \lim_{x_k \to +\infty} F_X(x_1, \ldots, x_n; t_1, \ldots, t_n) = F(x_1, \ldots, x_{k-1}, x_{k+1}, \ldots x_n; t_1, \ldots, t_{k-1}, t_{k+1}, \ldots, t_n)
+            \]
+    \end{enumerate}
+\end{statement}
+
+\begin{theorem}[Колмогорова]
+    \label{theorem:basics:finite_distributions_family_define_stochastic_process}
+    Пусть имеется семейство распределений случайных векторов,
+    удовлетворяющее всем свойствам из утверждения \ref{statement:basics:finite_distribution_properties}.
+    Тогда существует вероятностное пространство и заданный на нём случайный процесс,
+    семейство конечномерных распределений которого совпадает с данным.
+\end{theorem}
+
+Таким образом, случайный процесс можно задавать семейством его конечномерных распределений.
+На данном этапе читателю должно стать понятно,
+как можно задавать вероятностное распределение на множестве функций
+(ответ~--- при помощи специальных семейств конечномерных распределений).
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:rv_plus_t}]
+    \noindent
+    Пусть $ \eta $~--- случайная величина с функцией распределения $ F_\eta $.
+    Найти все конечномерные распределения случайного процесса $ X_t = \eta + t $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Одномерная функция распределения:
+    \[
+        F_X(x; t) = \proba \{ \omega \in \Omega \mid X_t < x \} = \proba \{ \eta < x - t \} = F_\eta(x - t)
+    \]
+    Конечномерная функция распределения:
+    \begin{multline*}
+        F_X(x_1, \ldots, x_n; t_1, \ldots, t_n) = \proba \bigcap_{i = 1}^n \{ X_{t_i} < x_i \} = \proba \bigcap_{i = 1}^n \{ \eta < x_i - t_i \} = \\
+        = \proba \left\{ \eta < \min_i \{x_i - t_i\} \right\} = F_\eta \left(\min_i \{x_i - t_i \} \right)
+    \end{multline*}
+\end{Answer}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:random_point_om_segment}]
+    \noindent
+    Пусть дана случайная величина $ \eta \sim \uniform_{[0;1]} $.
+    Определим случайный процесс $ X_t = \indicator_{(-\infty; \eta]}(t) $.
+    Найдите вид реализаций процесса, его одномерные и двумерные распределения.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Реализация процесса~--- функция, равная единице при $ t \leqslant \eta $ и нулю при $ t > \eta $.
+    Одномерная функция распределения:
+    \[
+        F_X(x;t) = \proba \{ X_t < x \} = \proba \{ \indicator_{(-\infty; \eta]}(t) < x \} =
+        \begin{cases}
+            0, &\quad x \leqslant 0 \\
+            \proba \{\eta < t\}, &\quad 0 < x \leqslant 1 \\
+            1, &\quad x > 1
+        \end{cases},
+    \]
+    \[
+        \textnormal{где} \quad
+        \proba \{\eta < t\} = F_\eta(t) =
+        \begin{cases}
+            0, &\quad t \leqslant 0 \\
+            t, &\quad 0 < t \leqslant 1 \\
+            1, &\quad t > 1
+        \end{cases}
+    \]
+    Двумерная функция распределения:
+    \[
+        F_X(x_1, x_2; t_1, t_2) = \proba \left( \{X_{t_1} < x_1\} \cap \{X_{t_2} < x_2\} \right)
+    \]
+    Аналогично одномерной функции распределения,
+    \begin{enumerate}
+        \item
+            Если $ x_1 \leqslant 0 $ или $ x_2 \leqslant 0 $, $ F_X(x_1, x_2; t_1, t_2) = 0 $.
+        \item
+            Если $ x_1 > 1 $ и $ x_2 > 1 $, $ F_X(x_1, x_2; t_1, t_2) = 1 $.
+        \item
+            Если $ 0 < x_1 \leqslant 1 $ и $ x_2 > 1 $, $ F_X(x_1, x_2; t_1, t_2) = F_X(x_1; t_1) $.
+            Аналогично симметричный случай.
+        \item
+            Если $ 0 < x_1, x_2 \leqslant 1 $,
+            \[
+                F(x_1, x_2; t_1, t_2) = \proba \left( \{\eta < t_1\} \cap \{\eta < t_2\} \right) =
+                \proba \left\{ \eta < \min\{t_1, t_2\} \right\} = F_\eta\left( \min\{t_1, t_2\} \right)
+                %\begin{cases}
+                %    0, &\quad \min\{t_1, t_2\} < 0 \\
+                %    \min\{t_1, t_2\}, &\quad 0 \leqslant \min\{t_1, t_2\} < 1 \\
+                %    1, &\quad \min\{t_1, t_2\} > 1
+                %\end{cases}
+            \]
+    \end{enumerate}
+\end{Answer}
+
+Существование различных случайных процессов с одними и теми же
+вероятностными свойствами приводит к желанию (а иногда и необходимости)
+в некотором смысле отождествлять процессы,
+у которых конечномерные распределения совпадают.
+
+\begin{definition}
+    \label{definition:basics:modification}
+    Пусть $ X $ и $ Y $~--- два случайных процесса,
+    определённые на одном и том же вероятностном пространстве $ (\Omega, \setfamily, \proba) $ и множестве $ T $.
+    Данные процессы называются \defemph{стохастически эквивалентными} в случае равенства почти наверное их реализаций в любой выбранный момент,
+    то есть
+    \[
+        \forall t \in T \quad \proba \{ \omega \in \Omega \mid X(\omega, t) = Y(\omega, t) \} = 1
+    \]
+    В этом случае $ Y $ называют \defemph{модификацией} процесса $ Y $ (и наоборот).
+\end{definition}
+
+\begin{statement}
+    \label{statement:basics:finite_distributions_of_modifications}
+    Стохастически эквивалентные случайные процессы имеют одинаковое семейство конечномерных распределений.
+\end{statement}
+
+Например, такое отождествление полезно для осмысленного определения непрерывного случайного процесса:
+\begin{definition}
+    \label{definition:basics:continious_stochastic_process}
+    Случайный процесс называется \defemph{непрерывным} в случае,
+    если существует его модификациея с непрерывными реализациями.
+\end{definition}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:continious_stochastic_process}]
+    \noindent
+    Пусть $ \eta \sim \uniform_{[0;1]} $.
+    Определим случайный процесс $ X_t = \indicator_{\{\eta\}}(t) $
+    (то есть $ X_t = 1 $ в том и только в том случае, когда $ \eta = t $, и равен $ 0 $ иначе).
+    Является ли $ X_t $ непрерывным процессом?
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Да, является.
+    Процесс $ Y_t \equiv 0 $ является его модификацией.
+\end{Answer}
+
+
+При исследовании случайных процессов также бывает полезно рассматривать их моменты,
+дающие некоторое представление об усреднённом поведении процесса.
+В отличие от случайных величин, любые моменты случайного процесса также зависят от времени.
+
+\begin{definition}
+    \label{definition:basics:mean_function}
+    Если $ \forall t \in T $ существует $ \expect X_t $,
+    то функция $ m_X(t) = \expect X_t $ определена и называется \defemph{функцией среднего}.
+\end{definition}
+
+Аналогично вводятся функции любых других моментов случайной величины $ X_t $.
+При работе со случайными процессами нас также будут интересовать моменты,
+<<разнесённые во времени>>.
+
+\begin{definition}
+    \label{definition:basics:second_order_moment_functions}
+    Если $ \forall t_1, t_2 \in T $ существует $ \expect X_{t_1} X_{t_2} $,
+    то функции $ K_X(t_1, t_2) = \expect X_{t_1} X_{t_2} $ и $ R_X(t_1, t_2) = \expect \rvcenter X_{t_1} \rvcenter X_{t_2} $
+    определены и называются, соответственно, \defemph{ковариационной} и \defemph{корреляционной функциями}.%
+    \footnote{Данные обозначения не являются общепринятыми, а также несколько контринтуитивны; при чтении сторонних источников будьте внимательны.}
+\end{definition}
+
+\begin{statement}
+    \label{statement:basics:correlation_and_covariation_connection}
+    Функции $ K_X(t_1, t_2) $ и $ R_X(t_1, t_2) $ одновременно либо определены, либо не определены,
+    причём в первом случае функция $ m_X(t) $ определена и $ R_X(t_1, t_2) = K_X(t_1, t_2) - m_X(t_1) m_X(t_2) $.
+\end{statement}
+
+\begin{proof}
+    Следует из свойств моментов.
+\end{proof}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:random_point_om_segment_moments}]
+    \noindent
+    Найти корреляционную функцию случайного процесса из задачи \ref{exercise:basics:random_point_om_segment}.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Для любого $ t_0 $ случайная величина $ X_{t_0} $ может принимать только два значения~--- $ 0 $ или $ 1 $;
+    это бернуллиевская случайная величина.
+    Найдём параметр её распределения:
+    \[
+        \proba \{X_t = 1\} = \proba \{t < \eta\} = 1 - F_\eta(t)
+    \]
+    Следовательно, $ m_X(t) = \expect X_t = 1 - F_\eta(t) $.
+    Далее,
+    \begin{multline*}
+        K_X(t_1, t_2) = \expect X_{t_1} X_{t_2} = 1 \cdot \proba \left( \{X_{t_1} = 1\} \cap \{X_{t_2} = 1\} \right) = \\
+        = \proba \left( \{t_1 < \eta\} \cap \{t_2 < \eta\} \right) = 1 - F_\eta\left( \max \{t_1, t_2\} \right)
+    \end{multline*}
+    Наконец,
+    \begin{multline*}
+        R_X(t_1, t_2) = 1 - F_\eta\left( \max \{t_1, t_2\} \right) - (1 - F_\eta(t_1)) \cdot (1 - F_\eta(t_2)) = \\
+        = F_\eta(t_1) \cdot F_\eta(t_2) - F_\eta(t_1) - F_\eta(t_2) - F_\eta(\max\{t_1, t_2\})
+    \end{multline*}
+\end{Answer}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:cosine_stochastic_process}]
+    \noindent
+    Пусть $ \xi \sim \normal(0, 1) $ и $ \eta \sim U_{[-\pi; \pi]} $~--- независимые случайные переменные.
+    Определим случайный процесс $ X $ следующим образом: $ X_t = \xi \cdot \cos(t + \eta) $, где $ t \in \reals $.
+    Найдите функцию среднего и корреляционную функцию процесса.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Поскольку $ \xi $ и $ \eta $ независимы,
+    \[
+        m_X(t) = \expect X_t = \expect \xi \cdot \expect \cos(t + \eta) = 0 \cdot \ldots = 0
+    \]
+    \begin{multline*}
+        R_X(t_1, t_2) = K_X(t_1, t_2) - 0 = \expect X_{t_1} X_{t_2} = \expect \xi^2 \cdot \expect \left( \cos(t_1 + \eta) \cdot \cos(t_2 + \eta) \right) = \\
+        = 1 \cdot \frac{1}{2} \expect \left( \cos(t_1 - t_2) + \cos(t_1 + t_2 + 2 \eta) \right) = \frac{1}{2} \cos(t_1 - t_2)
+    \end{multline*}
+\end{Answer}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:cos_and_sin}]
+    \noindent
+    Пусть $ U $, $ V $ и $ W $~--- независимые в совокупности случайные величины.
+    Известно, что $ U $ и $ V $ обладают нулевым матожиданием и дисперсией $ D $,
+    а $ W $ распределена с плотностью
+    \[
+        \rho_W(w) = \frac{2 \lambda}{\pi} \cdot \frac{\indicator_{[0; +\infty)}(w)}{\lambda^2 + w^2}, \quad \lambda > 0
+    \]
+    Определим случайный процесс $ X_t = U \cos(W t) + V \sin(W t) $.
+    Вычислите функцию среднего и корреляционную функцию.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Поскольку $ U $, $ V $ и $ W $ независимы в совокупоности,
+    \[
+        m_X(t) = \expect X_t = \expect U \cdot \expect \cos(W t) + \expect V \cdot \expect \sin(W t) = 0 \cdot \ldots + 0 \cdot \ldots = 0
+    \]
+    Корреляционную функцию удобно искать с помощью формулы полной вероятности в непрерывном случае:
+    \[
+        R_X(t_1, t_2) = \expect \left( \expect(X_{t_1} X_{t_2} \mid W = w) \right) = \int\limits_\reals \underbrace{\expect(X_{t_1} X_{t_2} \mid W = w)}_{\defeq R(t_1, t_2 \mid w)} \cdot \rho_W(w) \, dw
+    \]
+    В силу нулевого матожидания,
+    \begin{multline*}
+        R_X(t_1, t_2) = \expect \left( (U \cos(w t_1) + V \sin(w t_1)) \cdot (U \cos(w t_2) + V \sin(w t_2)) \right) = \\
+        = \expect (U^2) \cdot \cos(w t_1) + 2 \cdot \underbrace{\expect U \expect V}_{0} \cdot \ldots + \expect (V^2) \cdot \sin(w t_1) \sin(w t_2) = D \cos(w(t_1 - t_2))
+    \end{multline*}
+    Наконец,
+    \[
+        R_X(t_1, t_2) = \int\limits_0^{+\infty} D \cos(w(t_1 - t_2)) \cdot \frac{2 \lambda}{\pi} \frac{1}{\lambda^2 + w^2} \, dw = D e^{-\lambda |t_1 - t_2|}
+    \]
+    Здесь использовалось значение интеграла Лапласа:
+    \[
+        \int\limits_0^\infty \frac{\cos(\alpha x)}{1 + x^2} \, dx = \frac{\pi}{2} e^{-|\alpha|}
+    \]
+\end{Answer}

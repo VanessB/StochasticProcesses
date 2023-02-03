@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+%\usepackage[14pt]{extsizes}
+%\usepackage[a5paper, textwidth=12cm, textheight=17cm, headheight=14pt]{geometry}
+\usepackage[a4paper, left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+
+% Ссылки.
+\usepackage[unicode=true]{hyperref}
+
+% Улучшенные сноски.
+\usepackage{footmisc}
+
+% Продвинутые формулы.
+\usepackage{amsmath}
+
+% Продвинутые математические символы.
+\usepackage{amssymb}
+
+% Кастомизируемые теоремы.
+\usepackage{amsthm}
+%\usepackage{thmtools}
+
+% Русский язык.
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% Кастомизируемые хэдеры и футеры.
+%\usepackage{fancyhdr}
+
+% Табуляция перед первым параграфом.
+%\usepackage{indentfirst}
+
+% Нижнее подчёркивание с переносами.
+\usepackage[normalem]{ulem}
+
+% Графики gnuplot.
+\usepackage[shell, subfolder, cleanup]{gnuplottex}
+
+% Работа с плавающими объектами.
+\usepackage[section]{placeins}
+
+% Обтекаемые изображения
+\usepackage{wrapfig}
+
+% Ячейки на несколько строк.
+\usepackage{multirow}
+\usepackage{makecell}
+
+% Таблица с регулируемой шириной столбцов и работающими сносками.
+\usepackage{tabularx}
+
+% Альтернативные таблицы.
+%\usepackage{tabularray}
+
+% Вращение.
+\usepackage{rotating}
+\usepackage{pdflscape}
+
+% Элементы на следующей странице.
+\usepackage{afterpage}
+
+% Задачи.
+\usepackage[lastexercise]{exercise}
+
+% Сброс счётчика.
+\usepackage{chngcntr}
+
+% Графика TikZ
+\usepackage{tikz}
+%\usepackage{tikz-qtree}
+%\usetikzlibrary{calc}
+\usetikzlibrary{trees,calc,arrows.meta,positioning,decorations.pathreplacing,bending,matrix}
+%\usetikzlibrary{trees}
+
+% Таблицы Юнга.
+\usepackage{ytableau}
+
+% Enum и item на одной строке.
+\usepackage[inline]{enumitem}
+\setlist[1]{itemsep=0pt} % Величина разрыва между \item
+
+
+    %%%%%%%%%
+
+    % КОМАНДЫ
+
+    %%%%%%%%%
+
+
+% Математические символы и прочие дефайны.
+\input{includes/defines.tex}
+
+% Настройки пакета с упражнениями.
+\input{includes/exercise.tex}
+
+% Картинки.
+\input{includes/figures.tex}
+
+% Специальные обозначения бкув.
+\input{includes/letters.tex}
+
+% Теория вероятностей.
+\input{includes/probability.tex}
+
+% Разделы без номеров.
+\input{includes/silent_sections.tex}
+
+% Настройки пакета asmthm.
+\input{includes/theorems.tex}
+
+
+% Правила вывода.
+\newcommand{\typerule}[2]{%
+    \begin{tabular}{c}
+    $#1$ \\
+    \hline
+    %\midrule
+    $#2$
+    \end{tabular}%
+}
+
+
+% Inline item.
+\makeatletter
+\newcommand{\inlineitem}[1][]
+{%
+    \ifnum\enit@type=\tw@
+        {\descriptionlabel{#1}}
+        \hspace{\labelsep}%
+    \else
+        \ifnum\enit@type=\z@
+        \refstepcounter{\@listctr}\fi
+        \quad\@itemlabel\hspace{\labelsep}%
+\fi}
+\makeatother
+
+
+% Выделение в определении
+%\newcommand{\defemph}[1]{\textbf{\textit{#1}}}
+\DeclareTextFontCommand{\defemph}{\bfseries\em}
+
+% Нумерация русскими буквами.
+\renewcommand{\alph}[1]{\asbuk{#1}}
+
+% Пространство между плавающими объектами.
+\setlength{\floatsep}{20pt}
+
+
+
+
+\title{Случайные процессы: семинары}
+\author{Бутаков~И.\,Д.}
+\date{2023}
+
+%\pagenumbering{gobble}
+
+\begin{document}
+
+\numberwithin{equation}{section}
+
+\maketitle
+
+\tableofcontents
+
+\include{chapters/intro}          % Введение.
+\include{chapters/basics.tex}     % Общие сведения.
+
+\end{document}

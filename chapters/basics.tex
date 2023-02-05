@@ -1,4 +1,4 @@
-\section{Основные сведения} \label{sec:basics}
+\section{Основные сведения} \label{section:basics}
 
 Случайные процессы~--- математические объекты,
 построенные с использованием теории вероятностей для исследования и моделирования реальных явлений,
@@ -7,8 +7,8 @@
 \begin{definition}
     \label{definition:basics:stochastic_process}
     Пусть задано вероятностное пространство $ (\Omega, \setfamily, \proba) $ и множество $ T \subseteq \mathbb{R} $.
-    Функция $ X: \Omega \times T \to \mathbb{R} $ называется \defemph{случайным процессом},
-    если $ \forall t \in T $ функция $ X(\cdot, t) \equiv X_t: \Omega \to \mathbb{R} $ измерима
+    Функция $ X\colon \Omega \times T \to \mathbb{R} $ называется \defemph{случайным процессом},
+    если $ \forall t \in T $ функция $ X(\cdot, t) \equiv X_t\colon \Omega \to \mathbb{R} $ измерима
     (то есть является случайной величиной).
 \end{definition}
 
@@ -108,7 +108,7 @@
 
 \begin{Answer}
     \noindent
-    Реализация процесса~--- функция, равная единице при $ t \leqslant \eta $ и нулю при $ t > \eta $.
+    Реализация процесса~--- функция, равная единице при $ t \leqslant \eta $ и нулю при $ t > \eta $, см. рис.~\ref{figure:basics:random_point_on_segment}.
     Одномерная функция распределения:
     \[
         F_X(x;t) = \proba \{ X_t < x \} = \proba \{ \indicator_{(-\infty; \eta]}(t) < x \} =
@@ -153,6 +153,50 @@
             \]
     \end{enumerate}
 \end{Answer}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions={color size 12cm,8cm}]
+        set xlabel  "$ t $"
+        set xrange  [ 0 : 1 ] noreverse writeback
+        set ylabel  "$ X_t $"
+        set yrange  [ -0.1 : 1.1 ] noreverse writeback
+
+        # Functions
+
+        eta = 0.42
+        part1(x) = (x <= eta ? 1.0 : 1/0)
+        part2(x) = (x >= eta ? 0.0 : 1/0)
+        #indicator(x) = (x <= eta ? 1.0 : 0.0)
+        #set samples 1000
+
+        # Grid
+
+        set style line 110 lt 1 lc rgb "#EE5555" lw 8
+
+        set style line 100 lt 1 lc rgb "#444444" lw 1
+        set style line 101 lt 1 lc rgb "#CCCCCC" lw 1
+        set style line 102 lt 1 lc rgb "#EEEEEE" lw 1
+
+        set style line 105 lt 1 lc rgb "#444444" lw 3
+
+        set grid ytics mytics mxtics xtics ls 100, ls 101
+
+        # Arrows
+
+        unset border
+        set arrow from graph 0.0,0.083333 to graph 1.05,0.083333 size screen 0.025,15,60 filled ls 105
+        set arrow from graph 0.0,0.0 to graph 0.0,1.05 size screen 0.025,15,60 filled ls 105
+
+        # Plotting
+
+        set key noautotitle
+        plot [0:1] part1(x) notitle ls 110, part2(x) t "$ X(\\omega_0, t) $" ls 110
+    \end{gnuplot}
+    %\vspace{-32pt}
+    \caption{График одной из реализаций случайного процесса из задачи \ref{exercise:basics:random_point_om_segment}.}
+    \label{figure:basics:random_point_on_segment}
+\end{figure}
 
 Существование различных случайных процессов с одними и теми же
 вероятностными свойствами приводит к желанию (а иногда и необходимости)
@@ -252,8 +296,12 @@
     Наконец,
     \begin{multline*}
         R_X(t_1, t_2) = 1 - F_\eta\left( \max \{t_1, t_2\} \right) - (1 - F_\eta(t_1)) \cdot (1 - F_\eta(t_2)) = \\
-        = F_\eta(t_1) \cdot F_\eta(t_2) - F_\eta(t_1) - F_\eta(t_2) - F_\eta(\max\{t_1, t_2\})
+        = F_\eta(t_1) + F_\eta(t_2) - F_\eta(t_1) \cdot F_\eta(t_2) - F_\eta(\max\{t_1, t_2\})
     \end{multline*}
+    В частности, если $ t_1, t_2 \in [0; 1] $,
+    \[
+        R_X(t_1, t_2) = t_1 + t_2 - t_1 t_2 - \max\{t_1, t_2\} = \min\{t_1, t_2\} - t_1 t_2
+    \]
 \end{Answer}
 
 \begin{Exercise}[counter=SecExercise, label={exercise:basics:cosine_stochastic_process}]
@@ -310,4 +358,51 @@
     \[
         \int\limits_0^\infty \frac{\cos(\alpha x)}{1 + x^2} \, dx = \frac{\pi}{2} e^{-|\alpha|}
     \]
+\end{Answer}
+
+
+\begin{definition}
+    \label{definition:basics:correlation_coefficient_function}
+    \defemph{Функцией коэффициента корреляции} называют функцию
+    \[
+        r_X(t_1, t_2) = \frac{R_X(t_1, t_2)}{\sqrt{R_X(t_1, t_1) \cdot R_X(t_2, t_2)}} = \frac{\covariance{X_{t_1}}{X_{t_2}}}{\sqrt{\dispersion X_{t_1} \dispersion X_{t_2}}}
+    \]
+\end{definition}
+
+Данная функция, если определена, принимает значения от $ -1 $ до $ 1 $
+и имеет смысл степени \uline{линейной} связи сечений процесса,
+соответствующих выбранным моментам времени.
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:correlation_coefficient_function}]
+    \noindent
+    Найти функции коэффициента корреляции для процессов из задач \ref{exercise:basics:cosine_stochastic_process} и \ref{exercise:basics:cos_and_sin}.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{itemize}
+        \item
+            Задача \ref{exercise:basics:cosine_stochastic_process}:
+            $
+                \displaystyle
+                r_X(t_1, t_2) = \frac{\frac{1}{2} \cos(t_1 - t_2)}{\sqrt{\frac{1}{2} \cdot \frac{1}{2}}} = \cos(t_1 - t_2)
+            $.
+
+            Если взять два произвольных момента времени и начать сдвигать их друг к другу или друг от друга,
+            будет наблюдаться периодическая корреляция и декорреляция соответствующих сечений.
+        \item
+            Задача \ref{exercise:basics:cos_and_sin}:
+            $
+                \displaystyle
+                r_X(t_1, t_2) = \frac{D e^{-\lambda |t_1 - t_2|}}{\sqrt{D e^{-\lambda \cdot 0} \cdot D e^{-\lambda \cdot 0}}} = e^{-\lambda |t_1 - t_2|}
+            $.
+
+            Несмотря на схожесть процессов, в данном случае наблюдается корреляция,
+            затухающая экспоненциально с ростом разницы между моментами времени,
+            в которых взяты сечения.
+
+            Дело в том, что в первом процессе случайным был фазовый сдвиг, а потому реализации процесса <<не расползались>>.
+            Во втором же случае случайной является ещё и частота, и линейная связь между разными моментами времени быстро теряется
+            (реализации <<декогерируют>>).
+    \end{itemize}
 \end{Answer}

@@ -102,3 +102,87 @@
             $ \proba \{ K_{t + h} - K_t > 1 \} \in o(h) $
     \end{enumerate}
 \end{statement}
+
+
+\begin{statement}
+    \label{statement:special:Poisson_process_correlation_function}
+    Пусть $ K $~--- пуассоновский процесс с интенсивностью $ \lambda $.
+    Тогда $ m_K(t) = \lambda t $, $ R_K(t, s) = \lambda \cdot \min \{t, s\} $.
+\end{statement}
+
+\begin{proof}
+    Так как $ K_t \almosteq K_t - K_0 \sim \poisson(\lambda t) $, $ m_K(t) = \expect K_t = \lambda t $.
+    Далее, в силу независимости приращений, при $ t \geqslant s $ имеем
+    $ \covariance{K_t}{K_s} = \covariance{K_t - K_s + K_s}{K_s} = 0 + \covariance{K_s}{K_s} = \lambda t $.
+    Поэтому $ R_k(t, s) = \lambda \cdot \min \{t, s\} $.
+\end{proof}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:special:total_wait_time}]
+    \noindent
+    Поток прибывающих на железнодорожную станцию пассажиров моделируется пуассоновским процессом $ K $ с интенсивностью $ \lambda $.
+    В момент $ t = 0 $ пассажиров нет, в момент $ t = t_0 $ прибывает первый поезд.
+    Пусть $ \eta $~--- суммарное время ожидания прибытия поезда всеми пассажирами на станции.
+    Найти $ \expect \eta $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \[
+        \eta = \int\limits_0^{t_0} K_t \, dt, \qquad
+        \expect \eta = \int\limits_\Omega d\proba \int\limits_0^{t_0} K_t \, dt = \int\limits_0^{t_0} dt \int\limits_\Omega K_t \, d \proba = \int\limits_0^{t_0} m_K(t) \, dt =
+        \int\limits_0^{t_0} \lambda t \, dt = \frac{\lambda t_0^2}{2}
+    \]
+\end{Answer}
+
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:special:Poisson_process_first_event_conditional}]
+    \noindent
+    Пусть $ K_t $~--- пуассоновский процесс с интенсивностью $ \lambda $,
+    а $ \tau_1 $~--- момент первого скачка.
+    Найдите $ \proba\{\tau_1 \leqslant s \mid K_t = 1\} $ при $ 0 < s < t $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Событие $ \{ \tau_1 \leqslant s \} $ означает, что первый скачок процесса произошёл не позже момента $ s $.
+    Если при этом $ K_t = 1 $, то это означает, что $ K_s = 1 $.
+    Тогда
+    \begin{multline*}
+        \proba \{\tau_1 \leqslant s \mid K_t = 1 \} = \proba \{K_s = 1 \mid K_t = 1\} = \frac{\proba\left( \{K_s = 1\} \cap \{K_t = 1\} \right)}{\proba \{K_t = 1 \}} = \\
+        = \frac{\proba\left( \{K_s = 1\} \cap \{K_t - K_s = 0\} \right)}{\proba\{K_t = 1\}}
+        = \frac{\frac{\lambda s}{1!} e^{-\lambda s} \cdot \frac{(\lambda(t - s))^0}{0!} e^{-\lambda(t - s)}}{\frac{\lambda t}{1!} e^{-\lambda t}} = \frac{s}{t}
+    \end{multline*}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:special:Poisson_process_third_event}]
+    \noindent
+    Пусть $ K $~--- пуассоновский процесс с интенсивностью $ \lambda $, $ \tau_3 $~--- время третьего скачка процесса.
+    Найти $ \proba \{\tau_3 \leqslant 2 \} $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \[
+        \proba \{ \tau_3 \leqslant 2 \} = \proba \{ K_2 \geqslant 3 \} = 1 - \proba \{ K_2 < 3 \} = 1 - e^{-2 \lambda} - \frac{2 \lambda}{1!} e^{-2 \lambda} - \frac{(2 \lambda)^2}{2!} e^{-2 \lambda}
+    \]
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:special:Poisson_process_no_event}]
+    \noindent
+    Пусть $ \eta \sim \uniform_{[0; 1]} $,
+    $ K $~--- пуассоновский процесс с интенсивностью $ \lambda $, и $ \eta $ не зависит от $ K $.
+    Найти $ \proba\{K_\eta = K_{\eta + 1}\} $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    По формуле полной вероятности,
+    \[
+        \proba \{K_\eta = K_{\eta + 1}\} = \int\limits_\reals \proba\{\underbrace{K_{t + 1} - K_t}_{\sim \poisson(1 \cdot \lambda)} = 0 \mid \eta = t\} \cdot \rho_\eta(t) \, dt =
+        \int\limits_0^1 e^{-1 \cdot \lambda} \, dt = e^{-\lambda}
+    \]
+\end{Answer}

@@ -8,7 +8,7 @@
     \label{definition:basics:stochastic_process}
     Пусть задано вероятностное пространство $ (\Omega, \setfamily, \proba) $ и множество $ T \subseteq \mathbb{R} $.
     Функция $ X\colon \Omega \times T \to \mathbb{R} $ называется \defemph{случайным процессом},
-    если $ \forall t \in T $ функция $ X(\cdot, t) \equiv X_t\colon \Omega \to \mathbb{R} $ измерима
+    если $ \forall t \in T $ функция $ X(\blankarg, t) \equiv X_t\colon \Omega \to \mathbb{R} $ измерима
     (то есть является случайной величиной).
 \end{definition}
 
@@ -16,6 +16,7 @@
 Параметр $ t $ обычно интерпретируется как время.
 Если $ T $ состоит из одного элемента, случайный процесс является обычной случайной величиной,
 если $ T $ конечно~--- случайным вектором.
+Если $ T $ счётно, говорят о случайном процессе с дискретным временем.
 Параметр $ \omega $, как и при описании случайных величин, часто опускается.
 
 \begin{definition}
@@ -25,7 +26,7 @@
 
 \begin{definition}
     \label{definition:basics:stochastic_process_realization}
-    При фиксированном $ \omega_0 \in \Omega $ функция $ X(\omega_0, \cdot ) $ называется \defemph{реализацией случайного процесса} $ X $.
+    При фиксированном $ \omega_0 \in \Omega $ функция $ X(\omega_0, \blankarg) $ называется \defemph{реализацией (траекторией) случайного процесса} $ X $.
 \end{definition}
 
 Также случайный процесс можно считать особой случайной величиной, принимающей значения в пространстве функций;
@@ -198,6 +199,48 @@
     \label{figure:basics:random_point_on_segment}
 \end{figure}
 
+Задавать процессы на вероятностных пространствах удобно также при помощи \defemph{выборочного (вторичного) пространства}.
+
+\begin{definition}
+    \label{definition:basics:sampling_space}
+    Рассмотрим определённый на вероятностном пространстве $ (\Omega, \setfamily, \proba) $ случайный процесс $ X \colon \Omega \times T \to \reals $.
+    Пусть $ \trajectories $~--- пространство функций, содержащее в себе все траектории $ X(\omega, \blankarg) $ (но не обязательно только их).
+    Рассмотрим $ \sigma $-алгебру, порождённую \defemph{цилиндрическими множествами}:
+    \[
+        \borel_{\trajectories}^T =
+        \sigma\left( \left\{ x \in \trajectories \mid x(t_1) \in B_1, \ldots, x(t_n) \in B_n \right\}_{n \in \naturals, \{t_k\}_{k=1}^n \subseteq T, \{B_k\}_{k=1}^n \subseteq \borel} \right)
+    \]
+    Отображение $ X(\omega, \blankarg) $ определяет измеримое отображение $ (\Omega, \setfamily) $ в $ (\trajectories, \borel_{\trajectories}^T) $:
+    \[
+        \forall B \in \borel_{\trajectories}^T \quad \{ \omega \in \Omega \mid X(\omega, \blankarg) \in B \} \in \setfamily
+    \]
+    На пространстве $ (\trajectories, \borel_{\trajectories}^T) $ вероятностную меру можно определить следующим образом:
+    \[
+        \forall B \in \borel_{\trajectories}^T \quad \proba_X B = \proba \{ \omega \in \Omega \mid X(\omega, \blankarg) \in B \}
+    \]
+    Вероятностное пространство $ (\trajectories, \borel_{\trajectories}^T, \proba_X) $ называется \defemph{выборочным (вторичным) пространством}.
+\end{definition}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:basics:sampling_space}]
+    \noindent
+    Рассмотрим вероятностное пространство $ \left( \{0, 1, 2, 3\}, 2^{\{0, 1, 2, 3\}}, \proba \right) $,
+    где $ \proba: \proba \{0\} = \ldots = \proba \{3\} = \frac{1}{4} $,
+    и случайный процесс $ X(\omega, t) = \sin\left( t + \frac{\pi}{2} \omega \right) $, $ t \in T = [0; 2 \pi] $.
+    Построить вторичное (выборочное) вероятностное пространство.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Возьмём в качестве пространства функций $ \trajectories = \left\{ \sin(t), \sin\left( t + \frac{\pi}{2} \right), \sin\left( t + \pi \right), \sin\left( t + \frac{3 \pi}{2} \right) \right\} $.
+    Тогда $ \borel_\trajectories^T = 2^\trajectories $,
+    так как для любого подмножества $ \trajectories $ можно подобрать цилиндрическое множество, с которым оно совпадает.
+    Наконец,
+    \[
+        \proba_X: \quad \proba_X \left\{ \sin(t) \right\} = \ldots = \proba_X \left\{ \sin\left( t + 3 \pi/2 \right) \right\} = \frac{1}{4}
+    \]
+\end{Answer}
+
+
 Существование различных случайных процессов с одними и теми же
 вероятностными свойствами приводит к желанию (а иногда и необходимости)
 в некотором смысле отождествлять процессы,
@@ -244,7 +287,7 @@
 
 При исследовании случайных процессов также бывает полезно рассматривать их моменты,
 дающие некоторое представление об усреднённом поведении процесса.
-В отличие от случайных величин, любые моменты случайного процесса также зависят от времени.
+В отличие от моментов случайных величин, любые моменты случайного процесса также зависят от времени.
 
 \begin{definition}
     \label{definition:basics:mean_function}
@@ -285,13 +328,13 @@
     это бернуллиевская случайная величина.
     Найдём параметр её распределения:
     \[
-        \proba \{X_t = 1\} = \proba \{t < \eta\} = 1 - F_\eta(t)
+        \proba \{X_t = 1\} = \proba \{t \leqslant \eta\} = 1 - F_\eta(t)
     \]
     Следовательно, $ m_X(t) = \expect X_t = 1 - F_\eta(t) $.
     Далее,
     \begin{multline*}
         K_X(t_1, t_2) = \expect X_{t_1} X_{t_2} = 1 \cdot \proba \left( \{X_{t_1} = 1\} \cap \{X_{t_2} = 1\} \right) = \\
-        = \proba \left( \{t_1 < \eta\} \cap \{t_2 < \eta\} \right) = 1 - F_\eta\left( \max \{t_1, t_2\} \right)
+        = \proba \left( \{t_1 \leqslant \eta\} \cap \{t_2 \leqslant \eta\} \right) = 1 - F_\eta\left( \max \{t_1, t_2\} \right)
     \end{multline*}
     Наконец,
     \begin{multline*}
@@ -306,7 +349,7 @@
 
 \begin{Exercise}[counter=SecExercise, label={exercise:basics:cosine_stochastic_process}]
     \noindent
-    Пусть $ \xi \sim \normal(0, 1) $ и $ \eta \sim U_{[-\pi; \pi]} $~--- независимые случайные переменные.
+    Пусть $ \xi \sim \normal(0, 1) $ и $ \eta \sim U_{[-\pi; \pi]} $~--- независимые случайные величины.
     Определим случайный процесс $ X $ следующим образом: $ X_t = \xi \cdot \cos(t + \eta) $, где $ t \in \reals $.
     Найдите функцию среднего и корреляционную функцию процесса.
 \end{Exercise}
@@ -343,12 +386,12 @@
     \]
     Корреляционную функцию удобно искать с помощью формулы полной вероятности в непрерывном случае:
     \[
-        R_X(t_1, t_2) = \expect \left( \expect(X_{t_1} X_{t_2} \mid W = w) \right) = \int\limits_\reals \underbrace{\expect(X_{t_1} X_{t_2} \mid W = w)}_{\defeq R(t_1, t_2 \mid w)} \cdot \rho_W(w) \, dw
+        R_X(t_1, t_2) = \expect \left( \expect(X_{t_1} X_{t_2} \mid W = w) \right) = \int\limits_\reals \underbrace{\expect(X_{t_1} X_{t_2} \mid W = w)}_{\defeq R_X(t_1, t_2 \mid w)} \cdot \rho_W(w) \, dw
     \]
     В силу нулевого матожидания,
     \begin{multline*}
         R_X(t_1, t_2) = \expect \left( (U \cos(w t_1) + V \sin(w t_1)) \cdot (U \cos(w t_2) + V \sin(w t_2)) \right) = \\
-        = \expect (U^2) \cdot \cos(w t_1) + 2 \cdot \underbrace{\expect U \expect V}_{0} \cdot \ldots + \expect (V^2) \cdot \sin(w t_1) \sin(w t_2) = D \cos(w(t_1 - t_2))
+        = \expect (U^2) \cdot \cos(w t_1) \cos(w t_2) + 2 \cdot \underbrace{\expect U \expect V}_{0} \cdot \ldots + \expect (V^2) \cdot \sin(w t_1) \sin(w t_2) = D \cos(w(t_1 - t_2))
     \end{multline*}
     Наконец,
     \[

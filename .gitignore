@@ -8,3 +8,4 @@ gnuplottex/
 *.gnuploterrors
 
 !Main.pdf
+!Homework.pdf

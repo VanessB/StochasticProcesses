@@ -186,3 +186,104 @@
         \int\limits_0^1 e^{-1 \cdot \lambda} \, dt = e^{-\lambda}
     \]
 \end{Answer}
+
+Пуассоновский процесс моделирует лишь поток некоторых событий.
+Иногда сами события также имеют сложную и/или случайную природу.
+Тогда требуется построить более продвинутую модель,
+наследующую от пуассоновского процесса только характер возникновения событий с течением времени.
+В качестве примера такой модели можно привести \defemph{сложный (составной) пуассоновский процесс}.
+
+\begin{definition}
+    \label{definition:special:compound_Poisson_process}
+    Рассмотрим пуассоновский процесс $ K $ и набор независимых одинаково распределённых случайных величин $ \{ V_k \}_{k \in \naturals} $.
+    \defemph{Сложным пуассоновским процессом} называется процесс $ \displaystyle Q_t = \sum_{j = 1}^{K_t} V_j $.
+\end{definition}
+
+Это означает следующее: $ Q_0 \almosteq 0 $, и в каждый момент, когда $ K $ испытывает скачок, к $ Q $ добавляется $ V_j $.
+
+\begin{statement}
+    \label{statement:special:compound_Poisson_process_independent_deltas}
+    Сложный пуассоновский процесс является процессом с независимыми приращениями.
+\end{statement}
+
+\begin{proof}
+    Следует из независимости приращений $ K $ и независимости $ \{V_j\}_{j \in \naturals} $.
+\end{proof}
+
+
+\begin{statement}
+    \label{statement:special:compound_Poisson_process_characteristic_function}
+    Рассмотрим сложный пуассоновский процесс $ Q $, определённый по пуассоновскому процессу $ K $ с интенсивностью $ \lambda $
+    и случайным величинам $ \{ V_j \}_{j \in \naturals} $.
+    Пусть $ \varphi_V(s) $~--- характеристическая функция случайных величин $ V_j $.
+    Тогда характеристичекая функция процесса $ Q $ задаётся формулой
+    \[
+        \varphi_{Q_t}(s) = e^{(\varphi_V(s) - 1) \cdot \lambda t}
+    \]
+\end{statement}
+
+\begin{proof}
+    \begin{multline*}
+        \varphi_{Q_t}(s) = \sum_{k = 0}^\infty \expect \left( e^{i s \cdot Q_t} \mid K_t = k \right) \proba \{ K_t = k \} =
+        \sum_{k = 0}^\infty \expect \left( e^{i s \cdot (V_1 + \ldots + V_k)} \right) \cdot \frac{(\lambda t)^k}{k!} e^{-\lambda t} = \\
+        = \sum_{k = 0}^\infty (\varphi_V(s))^k \cdot \frac{(\lambda t)^k}{k!} e^{-\lambda t} = e^{\varphi_V(s) \cdot \lambda t} \cdot e^{-\lambda t}
+    \end{multline*}
+\end{proof}
+
+
+\begin{corollary}
+    \label{corollary:special:compound_Poisson_process_moments}
+    Функция среднего и корреляционная функция сложного пуассоновского процесса имеют вид, соответственно,
+    \[
+        m_Q(t) = \lambda t \cdot \expect V, \qquad
+        R_Q(t, s) = \lambda \min\{t,s\} \cdot \expect (V^2)
+    \]
+\end{corollary}
+
+\begin{proof}
+    По свойству характеристической функции,
+    \begin{multline*}
+        m_Q(t) = \expect Q_t = \left . -i \frac{\partial \varphi_{Q_t}(s)}{\partial s} \right|_{s = 0} =
+        \left. -i \frac{\partial}{\partial s} \left( e^{(\varphi_V(s) - 1) \cdot \lambda t} \right) \right|_{s = 0} = \\
+        = \lambda t \cdot \underbrace{\left( \left. - i \frac{\partial \varphi_V(s)}{\partial s} \right|_{s = 0} \right)}_{\expect V} \cdot
+            \underbrace{e^{(\varphi_V(0) - 1) \cdot \lambda t}}_{e^0} =
+        \lambda t \cdot \expect V
+    \end{multline*}
+    Пользуясь независимостью приращений и полагая $ t \leqslant s $,
+    \[
+        R_Q(t,s) = \expect Q_t Q_s - m_Q(t) m_Q(s) = \expect \left( Q_t (Q_s - Q_t) \right) + \expect Q_t^2 - \lambda^2 t s \cdot (\expect V)^2
+    \]
+    \[
+        \expect \left( Q_t (Q_s - Q_t) \right) = \expect Q_t \cdot \expect (Q_s - Q_t) = \lambda t \cdot \expect V \cdot \lambda (s - t) \cdot \expect V = \lambda^2 t (s - t) \cdot (\expect V)^2
+    \]
+    \[
+        \expect (Q_t)^2 = \left. (- i)^2 \frac{\partial^2}{\partial s^2} \left( e^{(\varphi_V(s) - 1) \cdot \lambda t} \right) \right|_{s = 0} = (\lambda t)^2 (\expect V)^2 + \lambda t \cdot \expect (V^2)
+    \]
+    Собирая всё вместе, получаем
+    \[
+        R_Q(t,s) = \lambda^2 [ \underbrace{t(s - t) + t^2 - ts}_{0} ] \cdot (\expect V)^2 + \lambda t \cdot \expect (V^2) = \lambda t \cdot \expect (V^2)
+    \]
+    В общем же случае $ R_Q(t, s) = \lambda \min\{t,s\} \cdot \expect (V^2) $.
+\end{proof}
+
+
+\begin{Exercise}[counter=SecExercise, title={(Прореживание пуассоновского процесса)}]
+    \noindent
+    Пусть $ K_t $~--- пуассоновский процесс с интенсивностью $ \lambda $,
+    а случайные величины $ \{V_j\}_{j \in \naturals} $ независимы и имеют распределение Бернулли с параметром $ p $.
+    Покажите, что $ Q_t $~--- также пуассоновский процесс с интенсивностью $ p \lambda $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Пуассоновский процесс также является сложным пуассоновским процессом с $ V_j \equiv 1 $.
+    Тогда характеристическая функция пуассоновского процесса:
+    \[
+        \varphi_{K_t}(s) = e^{\left(e^{i s} - 1 \right) \cdot \lambda t}
+    \]
+    Характеристическая функция <<прореженного>> процесса $ Q $:
+    \[
+        \varphi_{Q_t}(s) = e^{\left(p \, e^{i s} + (1 - p) - 1 \right) \cdot \lambda t} = e^{\left(e^{i s} - 1 \right) \cdot p \lambda t}
+    \]
+    Что и требовалось доказать.
+\end{Answer}

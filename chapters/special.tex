@@ -35,6 +35,44 @@
 Одновременно с поломкой включается следующий прибор, который работает случайное время $ \xi_2 $, и так далее.
 Величина $ K_t $ отражает количество приборов, введённых в эксплуатацию к моменту $ t $.
 
+\begin{figure}[ht!]
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions={color size 16cm,8cm}]
+        set xlabel  "$ t $"
+        set xrange  [ 0 : * ] noreverse writeback
+        set ylabel  "$ K_t $"
+        set yrange  [ 0 : * ] noreverse writeback
+
+        # Grid
+
+        set style line 100 lt 1 lc rgb "#444444" lw 1
+        set style line 101 lt 1 lc rgb "#CCCCCC" lw 1
+        set style line 102 lt 1 lc rgb "#EEEEEE" lw 1
+
+        set style line 105 lt 1 lc rgb "#444444" lw 3
+
+        set mxtics 5
+        set mytics 5
+        set grid ytics mytics mxtics xtics ls 100, ls 102
+
+        # Plotting
+
+        set datafile separator ','
+        set key autotitle columnhead
+
+        filename = './data/Poisson_realizations.csv'
+
+        stats filename nooutput
+        n_cols = STATS_columns > 9 ? 9 : STATS_columns  # В палитре по умолчанию всего 8 цветов.
+
+        plot [0:*] for [i=2:n_cols] filename using 1:i with histeps lw 3 notitle
+    \end{gnuplot}
+    %\vspace{-32pt}
+    \caption{Пример пучка реализаций пуассоновского процесса с интенсивностью $ \lambda = 2 $.}
+    \label{figure:special:Poisson_proccess_realizations}
+\end{figure}
+
+
 Приведённая явная конструкция возвращает нас к неформальному определению,
 использующему дискретное время с шагом $ \Delta t $.
 Можно заметить, что экспоненциальное распределение получается как
@@ -316,4 +354,9 @@
 
 
 
-%\subsection{Винеровский процесс} \label{subsection:Wiener}
+\subsection{Винеровский процесс} \label{subsection:Wiener}
+
+Винеровский процесс, как и пуассоновский, также имеет множество применений;
+он описывает симметричное случайное блуждание, непрерывное во времени.
+Например, речь может идти о броуновском движении,
+или о динамике цен акций (за вычетом тренда).

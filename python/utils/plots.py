@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_realizations(T, realizations, title="Реализации случайного процесса", **kwargs):
+def plot_realizations(T, realizations, is_discrete=False, title="Реализации случайного процесса", **kwargs):
     """
     Отрисовка реализаций слчайного процесса.
     
@@ -32,8 +32,12 @@ def plot_realizations(T, realizations, title="Реализации случай�
     
     ax.minorticks_on()
     
-    for realization in realizations:
-        ax.plot(T, realization)
+    if is_discrete:
+        for realization in realizations:
+            ax.step(T, realization)
+    else:
+        for realization in realizations:
+            ax.plot(T, realization)
 
     plt.show();
 

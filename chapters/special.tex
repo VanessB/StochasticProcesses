@@ -25,12 +25,14 @@
 \begin{definition}[Явная конструкция пуассоновского процесса]
     \label{definition:special:Poisson_process_explicit_definition}
     Пусть $ \xi_1, \ldots, \xi_k, \ldots \sim \expdistr(\lambda) $ и независимы в совокупности,
-    $ S_n = \xi_1 + \ldots + \xi_n $.
-    Тогда процесс $ K_t = \sup \{ n \mid S_n \leqslant t \} $ называется \defemph{пуассоновским процессом с интенсивностью $ \lambda $}.
+    $ \tau_n = \xi_1 + \ldots + \xi_n $.
+    Тогда процесс $ K_t = \sup \{ n \mid \tau_n \leqslant t \} $ называется \defemph{пуассоновским процессом с интенсивностью $ \lambda $}.
 \end{definition}
 
-Процесс $ K_t $, построенный по случайным величинам $ \xi_k $ способом, указанным выше,
-называется \defemph{процессом восстановления} и отвечает следующей модели:
+Процесс $ K_t $, построенный
+%по случайным величинам $ \xi_k $
+способом, указанным выше,
+называется \defemph{процессом восстановления, построенным по величинам $ \{ \xi_k \}_{k \in \naturals} $}, и отвечает следующей модели:
 в нулевой момент включается прибор, который работает время $ \xi_1 $, после чего ломается.
 Одновременно с поломкой включается следующий прибор, который работает случайное время $ \xi_2 $, и так далее.
 Величина $ K_t $ отражает количество приборов, введённых в эксплуатацию к моменту $ t $.
@@ -79,7 +81,8 @@
 предел вероятностного распределения случайной величины~---
 времени между соседними скачками~--- при $ \Delta t \to +0 $:
 \[
-    \proba \{ \xi_i = t \} = \lim_{\Delta t \to +0} \left( 1 - \lambda \Delta t \right)^{\frac{t}{\Delta t}} = e^{-\lambda t}
+    \proba \{ \xi_i \in [t; t+h) \} = \lim_{\Delta t \to +0} \left( 1 - \lambda \Delta t \right)^{\frac{t}{\Delta t}} \cdot \left( \lambda \Delta t \cdot \frac{h}{\Delta t} + o(h) \right) =
+    e^{-\lambda t} (h + o(h))
 \]
 
 Пуассоновский процесс можно определить и иначе.
@@ -133,7 +136,7 @@
             $ \proba \{ K_{t + h} - K_t = k \} = p(h, k) $
         \item
             Вероятность более чем одного скачка на полуинтервале $ (t; t + h] $ есть $ o(h) $,
-            то есть $ \displaystyle \lim_{h \to +0} \proba \{ K_{t+h} - K_t > 1 \} = 0 $.
+            то есть $ \displaystyle \lim_{h \to +0} \proba \{ K_{t+h} - K_t > 1 \} / h = 0 $.
         \item
             Для коротких полуинтервалов $ (t; t+h] $ вероятность того, что на них произойдёт хотя бы один скачок,
             убывает линейно с уменьшением $ h $: $ \proba \{ K_{t+h} - K_t > 0 \} = 1 - e^{-\lambda h} = \lambda h + o(h) $ при $ h \to 0 $.
@@ -348,15 +351,165 @@
     \[
         \varphi_{Q_t}(s) = e^{\left(p \, e^{i s} + (1 - p) - 1 \right) \cdot \lambda t} = e^{\left(e^{i s} - 1 \right) \cdot p \lambda t}
     \]
-    Что и требовалось доказать.
+    Имеем характеристическую функцию пуассоновского процесса с интенсивностью $ p \lambda $.
+    В общем случае этого недостаточно для того, чтобы утверждать, что процесс пуассоновский;
+    нужно равенство характеристических функций всех конечномерных распределений.
+    Но мы имеем дело с процессом с независимыми приращениями, поэтому характеристической функции среза нам достаточно
+    (это утверждение мы оставим без доказательства).
 \end{Answer}
 
 
 
 
-\subsection{Винеровский процесс} \label{subsection:Wiener}
+\subsection{Гауссовские процессы} \label{subsection:gaussian}
 
-Винеровский процесс, как и пуассоновский, также имеет множество применений;
-он описывает симметричное случайное блуждание, непрерывное во времени.
-Например, речь может идти о броуновском движении,
-или о динамике цен акций (за вычетом тренда).
+Гауссовские процессы могут возникать при исследовании броуновского движения,
+динамики цен акций, эволюции квантово-механических систем и стохастических космологических моделей.
+Также гауссовские процессы часто используется как <<шумовая составляющая>> других случайных процессов.
+
+\begin{definition}
+    \label{definition:special:gaussian_process}
+    Случайный процесс, все векторы срезов которого являются гауссовскими,
+    называется \defemph{гауссовским случайным процессом}.
+\end{definition}
+
+Напомним, что гауссовские векторы обладают рядом полезных свойств:
+распределение гауссовского вектора полностью задаётся вектором среднего и матрицей ковариации,
+а нескоррелированность компонент полностью эквивалентна независимости.
+Аналогичные свойства можно доказать и для гауссовских процессов.
+Однако для этого требуется ввести следующее определение:
+
+\begin{definition}
+    \label{definition:special:positive_semi_definite_function}
+    Функция $ g(x, y) \colon X \times X \to \complexes $ называется \defemph{симметричной неотрицательно определённой},
+    если $ \forall x, y \in X \;\, g(x, y) = g(y, x) $ и $ \forall n \in \naturals, \; \forall \{x_i\}_{i=1}^n, \{y_j\}_{j=1}^n \subseteq X $
+    матрица $ (g(x_i, y_j)) = G_{\{x_i\}, \{y_j\}} $ неотрицательна определена как оператор над $ \complexes^n $,
+    то есть $ \forall z \in \complexes^n \; \dotprod{z}{G_{\{x_i\}, \{y_j\}} \, z} \geqslant 0 $.
+\end{definition}
+
+\begin{remark}
+    \label{remark:special:positive_semi_definite_function_for_reals}
+    Если $ g(x, y) $ принимает только вещественные значения,
+    в определении \ref{definition:special:positive_semi_definite_function} можно рассматривать только $ z \in \reals^n $.
+\end{remark}
+
+\begin{statement}
+    \label{statement:special:mean_and_cov_define_gaussian_process}
+    Пусть $ m \colon T \to \reals $~--- произвольная функция,
+    а $ R \colon T \times T \to \reals $~--- симметричная и неотрицательно определённая функция.
+    Тогда существует гауссовский процесс $ X $ такой, что $ \expect X_t = m(t) $, $ \expect \rvcenter X_s \rvcenter X_t = R(s, t) $.
+\end{statement}
+
+В курсе теории вероятностей вы уже встречались с неотрицательно определёнными функциями.
+В частности, все характеристические функции случайных величин неотрицательно определены.
+
+\begin{statement}
+    \label{statement:special:characteristic_function_is_positive_semi_definite}
+    Пусть $ \varphi_\xi(s) $~--- характеристическая функция некоторой \uline{случайной величины} $ \xi $.
+    Тогда функция $ g(s, t) = \varphi_\xi(t - s) $~--- симметричная и неотрицательно определённая.
+\end{statement}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:special:gaussian_from_characteristic_function_of_Cauchy}]
+    \noindent
+    Существует ли гауссовский процесс с корреляционной функцией $ R(s, t) = e^{-|s - t|} $?
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Да, существует.
+    Мы знаем, что $e^{-|t|} $ есть характеристическая функция распределения Коши.
+    Поэтому это неотрицательно определённая функция.
+    Значит, $ R(s, t) = e^{-|s - t|} $ неотрицательно определена и симметрична.
+\end{Answer}
+
+
+\begin{figure}[ht!]
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions={color size 16cm,6cm}]
+        set xlabel  "$ t $"
+        set xrange  [ 0 : * ] noreverse writeback
+        set ylabel  "$ X_t $"
+
+        # Grid
+
+        set style line 100 lt 1 lc rgb "#444444" lw 1
+        set style line 101 lt 1 lc rgb "#CCCCCC" lw 1
+        set style line 102 lt 1 lc rgb "#EEEEEE" lw 1
+
+        set style line 105 lt 1 lc rgb "#444444" lw 3
+
+        set mxtics 5
+        set mytics 5
+        set grid ytics mytics mxtics xtics ls 100, ls 102
+
+        # Plotting
+
+        set datafile separator ','
+        set key autotitle columnhead
+
+        filename = './data/Gaussian_te14_realizations.csv'
+
+        stats filename nooutput
+        n_cols = STATS_columns > 9 ? 9 : STATS_columns  # В палитре по умолчанию всего 8 цветов.
+
+        plot [0:*] for [i=2:n_cols] filename using 1:i with lines lw 3 notitle
+    \end{gnuplot}
+    %\vspace{-32pt}
+    \caption{Пример пучка реализаций гауссовского процесса из задачи \ref{exercise:special:gaussian_from_characteristic_function_of_Cauchy} (среднее взято за ноль).}
+    \label{figure:special:gaussian_proccess_te14_realizations}
+\end{figure}
+
+
+\subsubsection{Винеровский процесс} \label{subsubsection:Wiener}
+
+Винеровский процесс описывает симметричное случайное блуждание, непрерывное во времени,
+и также имеет множество важных приложений.
+Данный процесс часто возникает в стохастических дифференциальных уравнениях,
+а также при построении других гауссовских процессов.
+
+\begin{figure}[ht!]
+    \centering
+    \begin{gnuplot}[terminal=epslatex, terminaloptions={color size 16cm,10cm}]
+        set xlabel  "$ t $"
+        set xrange  [ 0 : * ] noreverse writeback
+        set ylabel  "$ W_t $"
+
+        # Grid
+
+        set style line 100 lt 1 lc rgb "#444444" lw 1
+        set style line 101 lt 1 lc rgb "#CCCCCC" lw 1
+        set style line 102 lt 1 lc rgb "#EEEEEE" lw 1
+
+        set style line 105 lt 1 lc rgb "#444444" lw 3
+
+        set mxtics 5
+        set mytics 5
+        set grid ytics mytics mxtics xtics ls 100, ls 102
+
+        # Plotting
+
+        set datafile separator ','
+        set key autotitle columnhead
+
+        filename = './data/Wiener_realizations.csv'
+
+        stats filename nooutput
+        n_cols = STATS_columns > 9 ? 9 : STATS_columns  # В палитре по умолчанию всего 8 цветов.
+
+        plot [0:*] for [i=2:n_cols] filename using 1:i with lines lw 3 notitle
+    \end{gnuplot}
+    %\vspace{-32pt}
+    \caption{Пример пучка реализаций винеровского процесса.}
+    \label{figure:special:Wiener_proccess_realizations}
+\end{figure}
+
+Неформально винеровский процесс можно определить,
+введя мелкую сетку дискретного времени с шагом $ \Delta t $.
+Пусть процесс стартует из нуля и на каждом очередном шаге по времени
+делает скачок на некоторую случайную величину;
+математическое ожидание скачка пусть будет равно нулю, а дисперсия~--- $ \Delta t $
+(это сделано для того, чтобы дисперсия сечения процесса была равна прошедшему времени и,
+таким образом, не зависила от выбора $ \Delta t $).
+Полученные случайные блуждания при $ \Delta t \to +0 $ и описываются винеровским процессом.
+

@@ -199,6 +199,29 @@
     \label{figure:basics:random_point_on_segment}
 \end{figure}
 
+Через семейства конечномерных распределений также вводится понятие \defemph{независимости} процессов.
+\begin{definition}
+    \label{definition:basics:independent_stochastic_processes}
+    Стохастические процессы $ X $ и $ Y $, определённые на одних и тех же $ \Omega $ и $ T $,
+    называются \defemph{независимыми} в случае, если $ \forall n \in \naturals $ и $ \forall \{ t_i \}_{i = 1}^n \subseteq T $
+    векторы $ (X_{t_1}, \ldots, X_{t_n}) $ и $ (Y_{t_1}, \ldots, Y_{t_n}) $ независимы.
+\end{definition}
+
+\begin{remark}
+    \label{remark:basics:independent_stochastic_processes}
+    Определение \ref{definition:basics:independent_stochastic_processes} не изменится (не станет строго сильнее),
+    если потребоавть независимости любых векторов из сечений соответствующих процессов.
+\end{remark}
+
+\begin{proof}
+    Рассмотрим $ t_1, \ldots, t_n, s_1, \ldots, s_m \in T $.
+    Если векторы
+    \[
+        (X_{t_1}, \ldots, X_{t_n}, X_{s_1}, \ldots, X_{s_m}) \quad \text{и} \quad (Y_{t_1}, \ldots, Y_{t_n}, Y_{s_1}, \ldots, Y_{s_m})
+    \]
+    независимы, то независимы и векторы $ (X_{t_1}, \ldots, X_{t_n}) $ и $ (Y_{s_1}, \ldots, Y_{s_m}) $.
+\end{proof}
+
 Задавать процессы на вероятностных пространствах удобно также при помощи \defemph{выборочного (вторичного) пространства}.
 
 \begin{definition}
@@ -291,7 +314,7 @@
 
 \begin{definition}
     \label{definition:basics:mean_function}
-    Если $ \forall t \in T $ существует $ \expect X_t $,
+    Если $ \forall t \in T $ существует и конечно $ \expect X_t $,
     то функция $ m_X(t) = \expect X_t $ определена и называется \defemph{функцией среднего}.
 \end{definition}
 
@@ -301,7 +324,7 @@
 
 \begin{definition}
     \label{definition:basics:second_order_moment_functions}
-    Если $ \forall t_1, t_2 \in T $ существует $ \expect X_{t_1} X_{t_2} $,
+    Если $ \forall t_1, t_2 \in T $ существует и конечно $ \expect X_{t_1} X_{t_2} $,
     то функции $ K_X(t_1, t_2) = \expect X_{t_1} X_{t_2} $ и $ R_X(t_1, t_2) = \expect \rvcenter X_{t_1} \rvcenter X_{t_2} $
     определены и называются, соответственно, \defemph{ковариационной} и \defemph{корреляционной функциями}.%
     \footnote{Данные обозначения не являются общепринятыми, а также несколько контринтуитивны; при чтении сторонних источников будьте внимательны.}
@@ -316,6 +339,11 @@
 \begin{proof}
     Следует из свойств моментов.
 \end{proof}
+
+\begin{definition}
+    \label{definition:basics:L2_process}
+    Процесс, у которого существует ковариационная/корреляционная функция, называется \defemph{$ \lebesgue_2 $-процессом}.
+\end{definition}
 
 \begin{Exercise}[counter=SecExercise, label={exercise:basics:random_point_om_segment_moments}]
     \noindent

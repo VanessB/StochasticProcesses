@@ -181,34 +181,31 @@
 \end{proof}
 
 
-\begin{Exercise}[counter=SecExercise, label={exercise:special:total_wait_time}]
-    \noindent
+\begin{exercise}
+    \label{exercise:special:total_wait_time}
     Поток прибывающих на железнодорожную станцию пассажиров моделируется пуассоновским процессом $ K $ с интенсивностью $ \lambda $.
     В момент $ t = 0 $ пассажиров нет, в момент $ t = t_0 $ прибывает первый поезд.
     Пусть $ \eta $~--- суммарное время ожидания прибытия поезда всеми пассажирами на станции.
     Найти $ \expect \eta $.
-\end{Exercise}
+\end{exercise}
 
-\begin{Answer}
-    \noindent
+\begin{solution}
     \[
         \eta = \int\limits_0^{t_0} K_t \, dt, \qquad
         \expect \eta = \int\limits_\Omega d\proba \int\limits_0^{t_0} K_t \, dt = \int\limits_0^{t_0} dt \int\limits_\Omega K_t \, d \proba = \int\limits_0^{t_0} m_K(t) \, dt =
         \int\limits_0^{t_0} \lambda t \, dt = \frac{\lambda t_0^2}{2}
     \]
-\end{Answer}
+\end{solution}
 
 
-
-\begin{Exercise}[counter=SecExercise, label={exercise:special:Poisson_process_first_event_conditional}]
-    \noindent
+\begin{exercise}
+    \label{exercise:special:Poisson_process_first_event_conditional}
     Пусть $ K_t $~--- пуассоновский процесс с интенсивностью $ \lambda $,
     а $ \tau_1 $~--- момент первого скачка.
     Найдите $ \proba\{\tau_1 \leqslant s \mid K_t = 1\} $ при $ 0 < s < t $.
-\end{Exercise}
+\end{exercise}
 
-\begin{Answer}
-    \noindent
+\begin{solution}
     Событие $ \{ \tau_1 \leqslant s \} $ означает, что первый скачок процесса произошёл не позже момента $ s $.
     Если при этом $ K_t = 1 $, то это означает, что $ K_s = 1 $.
     Тогда
@@ -217,38 +214,37 @@
         = \frac{\proba\left( \{K_s = 1\} \cap \{K_t - K_s = 0\} \right)}{\proba\{K_t = 1\}}
         = \frac{\frac{\lambda s}{1!} e^{-\lambda s} \cdot \frac{(\lambda(t - s))^0}{0!} e^{-\lambda(t - s)}}{\frac{\lambda t}{1!} e^{-\lambda t}} = \frac{s}{t}
     \end{multline*}
-\end{Answer}
+\end{solution}
 
 
-\begin{Exercise}[counter=SecExercise, label={exercise:special:Poisson_process_third_event}]
-    \noindent
+\begin{exercise}
+    \label{exercise:special:Poisson_process_third_event}
     Пусть $ K $~--- пуассоновский процесс с интенсивностью $ \lambda $, $ \tau_3 $~--- время третьего скачка процесса.
     Найти $ \proba \{\tau_3 \leqslant 2 \} $.
-\end{Exercise}
+\end{exercise}
 
-\begin{Answer}
+\begin{solution}
     \noindent
     \[
         \proba \{ \tau_3 \leqslant 2 \} = \proba \{ K_2 \geqslant 3 \} = 1 - \proba \{ K_2 < 3 \} = 1 - e^{-2 \lambda} - \frac{2 \lambda}{1!} e^{-2 \lambda} - \frac{(2 \lambda)^2}{2!} e^{-2 \lambda}
     \]
-\end{Answer}
+\end{solution}
 
 
-\begin{Exercise}[counter=SecExercise, label={exercise:special:Poisson_process_no_event}]
-    \noindent
+\begin{exercise}
+    \label{exercise:special:Poisson_process_no_event}
     Пусть $ \eta \sim \uniform_{[0; 1]} $,
     $ K $~--- пуассоновский процесс с интенсивностью $ \lambda $, и $ \eta $ не зависит от $ K $.
     Найти $ \proba\{K_\eta = K_{\eta + 1}\} $.
-\end{Exercise}
+\end{exercise}
 
-\begin{Answer}
-    \noindent
+\begin{solution}
     По формуле полной вероятности,
     \[
         \proba \{K_\eta = K_{\eta + 1}\} = \int\limits_\reals \proba\{\underbrace{K_{t + 1} - K_t}_{\sim \poisson(1 \cdot \lambda)} = 0 \mid \eta = t\} \cdot \rho_\eta(t) \, dt =
         \int\limits_0^1 e^{-1 \cdot \lambda} \, dt = e^{-\lambda}
     \]
-\end{Answer}
+\end{solution}
 
 Пуассоновский процесс моделирует лишь поток некоторых событий.
 Иногда сами события также имеют сложную и/или случайную природу.
@@ -332,16 +328,14 @@
     В общем же случае $ R_Q(t, s) = \lambda \min\{t,s\} \cdot \expect (V^2) $.
 \end{proof}
 
-
-\begin{Exercise}[counter=SecExercise, title={(Прореживание пуассоновского процесса)}]
-    \noindent
+\begin{exercise}[subtitle={(Прореживание пуассоновского процесса)}]
+    \label{exercise:special:Poisson_process_decimation}
     Пусть $ K_t $~--- пуассоновский процесс с интенсивностью $ \lambda $,
     а случайные величины $ \{V_j\}_{j \in \naturals} $ независимы и имеют распределение Бернулли с параметром $ p $.
     Покажите, что $ Q_t $~--- также пуассоновский процесс с интенсивностью $ p \lambda $.
-\end{Exercise}
+\end{exercise}
 
-\begin{Answer}
-    \noindent
+\begin{solution}
     Пуассоновский процесс также является сложным пуассоновским процессом с $ V_j \equiv 1 $.
     Тогда характеристическая функция пуассоновского процесса:
     \[
@@ -354,9 +348,9 @@
     Имеем характеристическую функцию пуассоновского процесса с интенсивностью $ p \lambda $.
     В общем случае этого недостаточно для того, чтобы утверждать, что процесс пуассоновский;
     нужно равенство характеристических функций всех конечномерных распределений.
-    Но мы имеем дело с процессом с независимыми приращениями, поэтому характеристической функции среза нам достаточно
+    Но мы имеем дело с процессом с независимыми приращениями, поэтому характеристической функции сечения нам достаточно
     (это утверждение мы оставим без доказательства).
-\end{Answer}
+\end{solution}
 
 
 
@@ -369,7 +363,7 @@
 
 \begin{definition}
     \label{definition:special:gaussian_process}
-    Случайный процесс, все векторы срезов которого являются гауссовскими,
+    Случайный процесс, все векторы сечений которого являются гауссовскими,
     называется \defemph{гауссовским случайным процессом}.
 \end{definition}
 
@@ -383,7 +377,7 @@
     \label{definition:special:positive_semi_definite_function}
     Функция $ g(x, y) \colon X \times X \to \complexes $ называется \defemph{симметричной неотрицательно определённой},
     если $ \forall x, y \in X \;\, g(x, y) = g(y, x) $ и $ \forall n \in \naturals, \; \forall \{x_i\}_{i=1}^n, \{y_j\}_{j=1}^n \subseteq X $
-    матрица $ (g(x_i, y_j)) = G_{\{x_i\}, \{y_j\}} $ неотрицательна определена как оператор над $ \complexes^n $,
+    матрица $ (g(x_i, y_j))_{i,j=1}^n = G_{\{x_i\}, \{y_j\}} $ неотрицательна определена как оператор над $ \complexes^n $,
     то есть $ \forall z \in \complexes^n \; \dotprod{z}{G_{\{x_i\}, \{y_j\}} \, z} \geqslant 0 $.
 \end{definition}
 
@@ -409,20 +403,21 @@
     Тогда функция $ g(s, t) = \varphi_\xi(t - s) $~--- симметричная и неотрицательно определённая.
 \end{statement}
 
-
-\begin{Exercise}[counter=SecExercise, label={exercise:special:gaussian_from_characteristic_function_of_Cauchy}]
-    \noindent
+\begin{exercise}
+    \label{exercise:special:gaussian_from_characteristic_function_of_Cauchy}
     Существует ли гауссовский процесс с корреляционной функцией $ R(s, t) = e^{-|s - t|} $?
-\end{Exercise}
+\end{exercise}
 
-\begin{Answer}
-    \noindent
+\begin{solution}
     Да, существует.
     Мы знаем, что $e^{-|t|} $ есть характеристическая функция распределения Коши.
     Поэтому это неотрицательно определённая функция.
     Значит, $ R(s, t) = e^{-|s - t|} $ неотрицательно определена и симметрична.
-\end{Answer}
-
+    \newline
+    \textit{Пример реализаций процесса
+        %из задачи \ref{exercise:special:gaussian_from_characteristic_function_of_Cauchy}
+    можно видеть на рис.~\ref{figure:special:gaussian_proccess_te14_realizations}.}
+\end{solution}
 
 \begin{figure}[ht!]
     \centering
@@ -448,7 +443,7 @@
         set datafile separator ','
         set key autotitle columnhead
 
-        filename = './data/Gaussian_te14_realizations.csv'
+        filename = './data/Gaussian_expabs_realizations.csv'
 
         stats filename nooutput
         n_cols = STATS_columns > 9 ? 9 : STATS_columns  # В палитре по умолчанию всего 8 цветов.
@@ -459,6 +454,47 @@
     \caption{Пример пучка реализаций гауссовского процесса из задачи \ref{exercise:special:gaussian_from_characteristic_function_of_Cauchy} (среднее взято за ноль).}
     \label{figure:special:gaussian_proccess_te14_realizations}
 \end{figure}
+
+Напомним также несколько фатов касательно гауссовских векторов,
+которые пригодятся при исследовании гауссовских процессов.
+
+\begin{statement}
+    \label{statement:special_gaussian_vetor_affine}
+    Пусть $ \xi \sim \normal(\mu, R) $~--- гауссовский вектор размерности $ n \in \naturals $.
+    Пусть $ A \in \reals^{m \times n} $, $ b \in \reals^m $~--- произвольные вещественные матрица и вектор.
+    Тогда $ (A \xi + b) \sim \normal(A \mu + b, A R A^T) $~--- также гауссовский вектор.
+\end{statement}
+
+\FloatBarrier
+
+\begin{theorem}[Формула Вика]
+    \label{theorem:special:Wick_formula}
+    Пусть дан гауссовский вектор $ (\xi_1, \ldots, \xi_n) \sim \normal(0, R) $
+    с корреляционной матрицей $ R = (R_{i,j})_{i,j=1}^n \in \reals^{n \times n} $.
+    Тогда
+    \begin{enumerate}
+        \item
+            Если $ n $ нечётно, $ \expect \xi_1 \ldots \xi_n = 0 $.
+        \item
+            Если $ n $ чётно,
+            \[
+                \expect \xi_1 \ldots \xi_n = \sum R_{i_1, j_1} \ldots R_{i_n, j_n},
+            \]
+            где сумма берется по всем неупорядоченным разбиениям множества $ \{1, \ldots, n \} $ на $ n/2 $ неупорядоченных пар.
+    \end{enumerate}
+\end{theorem}
+
+%\begin{Exercise}[counter=SecExercise, label={
+\begin{example}
+    \label{example:special:Wick_formula}
+    Пусть $ \xi = (\xi_1, \xi_2, \xi_3, \xi_4) \sim \normal(0, R) $.
+    Тогда, согласно свойству гауссовского вектора и формуле Вика,
+    \[
+        \expect \xi_1 \xi_2 \xi_3 = 0, \qquad
+        \expect \xi_1 \xi_2 \xi_3 \xi_4 = R_{12} R_{34} + R_{13} R_{24} + R_{14} R_{23}
+    \]
+\end{example}
+
 
 
 \subsubsection{Винеровский процесс} \label{subsubsection:Wiener}
@@ -512,4 +548,163 @@
 (это сделано для того, чтобы дисперсия сечения процесса была равна прошедшему времени и,
 таким образом, не зависила от выбора $ \Delta t $).
 Полученные случайные блуждания при $ \Delta t \to +0 $ и описываются винеровским процессом.
+Дадим формальное определение.
 
+\begin{definition}
+    \label{definition:special:Wiener_process}
+    \defemph{Винеровским процессом} называется случайный процесс $ W \colon \Omega \times [0;+\infty) \to \reals $ такой, что
+    \begin{enumerate}
+        \item $ W_0 \almosteq 0 $.
+        \item $ W $~--- процесс с независимыми приращениями.
+        \item $ W_t - W_s \sim \normal(0, |t - s|) $.
+    \end{enumerate}
+\end{definition}
+
+Данное определение напомниает определение пуассоновского процесса;
+мы лишь изменили распределение приращений.
+Из определения следует, что винеровский процесс~--- гауссовский процесс.
+Как было упомянуто ранее, любой гауссовский процесс можно задать его функцией среднего и ковариационной функцией.
+Из этого следует второе, эквивалентное определение винеровского процесса:
+
+\begin{definition}
+    \label{definition:special:Wiener_process_as_gaussian}
+    \defemph{Винеровским процессом} называется гауссовский случайный процесс $ W \colon \Omega \times [0;+\infty) \to \reals $ такой,
+    что $ \expect W_t = 0 $, $ \expect \rvcenter W_t \rvcenter W_s = \min \{t, s\} $.
+\end{definition}
+
+Наконец, дадим третье эквивалентное определение:
+
+\begin{definition}
+    \label{definition:special:Wiener_process_mse}
+    \defemph{Винеровским процессом} называется гауссовский случайный процесс $ W \colon \Omega \times [0;+\infty) \to \reals $ такой, что
+    \begin{enumerate}
+        \item $ W_0 \almosteq 0 $.
+        \item $ \expect W_t = 0 $. \label{definition:special:Wiener_process_mse:zero_expectation}
+        \item $ \expect (W_t - W_s)^2 = |t - s| $. \label{definition:special:Wiener_process_mse:delta_dispersion}
+    \end{enumerate}
+\end{definition}
+
+
+\begin{theorem}
+    \label{theorem:special:Wiener_process_definitions_equivalence}
+    Определения \ref{definition:special:Wiener_process}, \ref{definition:special:Wiener_process_as_gaussian} и \ref{definition:special:Wiener_process_mse} эквивалентны.
+\end{theorem}
+
+\begin{proof}
+    \begin{enumerate}
+        \item[]
+        \item[\ref{definition:special:Wiener_process} $ \to $ \ref{definition:special:Wiener_process_as_gaussian}:]
+            Из независимости приращений и их нормального распределения следует, что процесс гауссовский
+            (любой вектор сечений получается линейным преобразованием из вектора приращений, который является гауссовским).
+            Далее, при $ t > s $ имеем $ \expect W_t = \expect (W_t - W_0) = 0 $, $ \covariance{W_t}{W_s} = \covariance{W_s + W_t - W_s}{W_s} = \dispersion W_s = s = \min \{ t, s \} $.
+        \item[\ref{definition:special:Wiener_process_as_gaussian} $ \to $ \ref{definition:special:Wiener_process_mse}:]
+            $ \expect (W_t - W_s)^2 = \expect W_t^2 - 2 \expect W_t W_s + \expect W_s^2 = t - 2 \min \{ t, s \} + s = |t - s| $.
+        \item[\ref{definition:special:Wiener_process_mse} $ \to $ \ref{definition:special:Wiener_process}:]
+            Поскольку процесс гауссовский, из пунктов \ref{definition:special:Wiener_process_mse:zero_expectation} и \ref{definition:special:Wiener_process_mse:delta_dispersion}
+            определения \ref{definition:special:Wiener_process_mse} следует, что $ W_t - W_s \sim \normal(0, |t - s|) $.
+            Прочитав доказательство в предыдущем пункте <<в обратную сторону>>, получаем $ \expect \rvcenter W_t \rvcenter W_s = \min \{t, s\} $.
+            Осталось показать независимость приращений.
+
+            Рассмотрим два произвольных последовательных приращения: $ W_{t_4} - W_{t_3} $ и $ W_{t_2} - W_{t_1} $
+            ($ t_1 \leqslant t_2 \leqslant t_3 \leqslant t_4 $).
+            Они образуют двумерный гауссовский вектор (т.к. получены линейным преобразованием из вектора сечений).
+            Приращения нескоррелированны:
+            \begin{multline*}
+                \covariance{W_{t_4} - W_{t_3}}{W_{t_2} - W_{t_1}} = \min\{t_4, t_2\} - \min\{t_3, t_2\} - \min\{t_4, t_1\} + \min\{t_3, t_1\} = \\
+                = t_2 - t_2 - t_1 + t_1 = 0
+            \end{multline*}
+            Поскольку любой вектор приращений процесса $ W $ гауссовский (см. рассуждение выше про линейное преобразование вектора сечений),
+            а его матрица ковариации диагональная (т.к. любые попарные ковариации нулевые),
+            из свойств гауссовского вектора получаем независимость.
+    \end{enumerate}
+\end{proof}
+
+Приведём без доказательства несколько полезных свойств винеровского процесса:
+
+\begin{statement}
+    \label{statement:special:Wiener_process_properties}
+    \begin{enumerate}
+        \item[]
+        \item
+            Винеровский процесс имеет \defemph{стационарные приращения},
+            то есть процесс $ Y_t = W_{t_0 + t} - W_{t_0} $ также винеровский для любого $ t_0 \geqslant 0 $.
+        \item
+            Винеровский процесс является непрерывным процессом.
+        \item
+            Траектории винеровского процесса \defemph{возвратны}:
+            множество $ \{t \mid W_t = 0\} $ с вероятностью $ 1 $ является неограниченным.
+        \item
+            Выполнен закон повторного логарифма Леви:
+            $ \displaystyle \uplim_{t \to +\infty} \frac{W_t}{\sqrt{2 t \ln \ln t}} \almosteq 1 $.
+    \end{enumerate}
+\end{statement}
+
+В качестве упражнения приведём доказательства для следующих двух утверждений:
+
+\begin{statement}
+    \label{statement:special:Wiener_process_self_similarity}
+    Винеровский процесс \defemph{самоподобен с коэффициентом $ 1/2 $},
+    то есть $ Y_t = W_{c t} / \sqrt{c} $~--- также винеровский процесс для любой константы $ c > 0 $.
+\end{statement}
+
+\begin{proof}
+    Процесс $ Y_t $ является гауссовским,
+    так как получен из гауссовского процесса линейным (относительно $ W_t $) масштабированием по оси времени и оси значений.
+    При этом
+    \[
+        \expect Y_t = \frac{1}{\sqrt{c}} \cdot 0 = 0, \qquad
+        \expect Y_t Y_s = \frac{1}{\sqrt{c} \cdot \sqrt{c}} \min\{ct, cs\} = \min\{t, s\},
+    \]
+    что по определению означает, что $ Y_t $~--- винеровский.
+\end{proof}
+
+\begin{statement}
+    \label{statement:special:Wiener_process_time_inverse}
+    Винеровский процесс допускает \defemph{<<инверсию времени>>}:
+    $ Y_t = t \cdot W_{1/t} $~--- также винеровский процесс.
+\end{statement}
+
+\begin{proof}
+    Процесс $ Y_t $ является гауссовским,
+    так как получен из гауссовского процесса линейным (относительно $ W_t $) масштабированием по оси времени и оси значений.
+    При этом
+    \[
+        \expect Y_t = t \cdot 0 = 0, \qquad
+        \expect Y_t Y_s = t s \cdot \min\{1/t, 1/s\} = \min\{t, s\},
+    \]
+    что по определению означает, что $ Y_t $~--- винеровский.
+\end{proof}
+
+
+\begin{exercise}
+    \label{exercise:special:Wiener_process_squared}
+    Найдите корреляционную функцию процесса $ X_t = W_t^2 $.
+\end{exercise}
+
+\begin{solution}
+    Пусть, без ограничения общности, $ t > s $.
+    Тогда
+    \begin{multline*}
+        \covariance{W_t^2}{W_s^2} = \covariance{(W_t - W_s)^2 - 2 W_t W_s - W_s^2}{W_s^2} = \\
+        = \covariance{(W_t - W_s)^2 + 2 (W_t - W_s) W_s + W_s^2}{W_s^2} = 0 + \covariance{(W_t - W_s)W_s}{W_s^2} + \dispersion W_s^2
+    \end{multline*}
+    Поскольку $ W_t - W_s $ и $ W_s $ независимы, $ \expect (W_t - W_s) W_s = 0 $.
+    Отсюда
+    \[
+        \covariance{(W_t - W_s)W_s}{W_s^2} = \expect (W_t - W_s) \underbrace{W_s (W_s^2 - \expect W_s^2)}_{p(W_s)} = \expect (W_t - W_s) \cdot \expect p(W_s) = 0 \cdot \ldots = 0
+    \]
+    Наконец,
+    \[
+        \covariance{W_t^2}{W_s^2} = \dispersion W_s^2 = \expect W_s^4 - (\expect W_s^2)^2 \overset{\textnormal{св. норм.}}{\underset{\textnormal{распр.}}{=}} 3 s^2 - s^2 = 2 s^2 = 2 \min\{ t^2, s^2\}
+    \]
+    Альтернативно, можно было применить формулу Вика:
+    \[
+        \expect W_t W_t W_s W_s = t \cdot s + \min\{t, s\} \cdot \min\{t, s\} + \min\{t, s\} \cdot \min\{t, s\} = ts + 2 \min\{t^2, s^2\}
+    \]
+    \[
+        \expect W_t^2 = t, \qquad \expect W_s^2 = s
+    \]
+    \[
+        \covariance{(W_t - W_s)W_s}{W_s^2} = ts + 2 \min\{t^2, s^2\} - ts = 2 \min\{t^2, s^2\}
+    \]
+\end{solution}

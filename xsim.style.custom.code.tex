@@ -1,0 +1,50 @@
+\xsimstyle{custom}
+
+\usepackage{needspace}
+
+\DeclareExerciseEnvironmentTemplate{runin}
+{%
+    \unskip%
+    \par\vspace{\topsep}%
+    \Needspace*{2\baselineskip}
+    \noindent
+    \textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}}%
+    \GetExercisePropertyT{subtitle}{ #1}\textbf{.} % <<< notice the space
+    \IfInsideSolutionF{%
+        \GetExercisePropertyT{points}{%
+            \marginpar{
+            \printgoal{\PropertyValue}%
+            \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
+            \,\IfExerciseGoalSingularTF{points}
+                {\XSIMtranslate{point}}
+                {\XSIMtranslate{points}}%
+            }%
+        }%
+    }%
+    \ignorespaces
+}
+{\unskip\vspace{\topsep}\ignorespacesafterend}
+
+
+\DeclareExerciseEnvironmentTemplate{runin-sol}
+{%
+    \unskip%
+    \par%\vspace{\topsep}%
+    \Needspace*{2\baselineskip}
+    \noindent
+    \textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}. }%
+    %\GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+    \IfInsideSolutionF{%
+        \GetExercisePropertyT{points}{%
+            \marginpar{
+            \printgoal{\PropertyValue}%
+            \GetExercisePropertyT{bonus-points}{+\printgoal{\PropertyValue}}%
+            \,\IfExerciseGoalSingularTF{points}
+                {\XSIMtranslate{point}}
+                {\XSIMtranslate{points}}%
+            }%
+        }%
+    }%
+    \ignorespaces
+}
+{\unskip\vspace{\topsep}\ignorespacesafterend}

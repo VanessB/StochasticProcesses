@@ -1,48 +1,26 @@
-%% Настройки пакета с упражнениями.
+%% Настройки пакета xsim
+\xsimsetup{path=xsim/}
+%\loadxsimstyle{layouts}
+\loadxsimstyle{custom}
 
-% Заголовок упражнения.
-\renewcommand{\ExerciseHeader}
-{
-    \leftline
-    {
-        \textbf
-        {
-            %\large
-            Задача
-            \ExerciseHeaderNB \ExerciseHeaderDifficulty
-            \textit{\ExerciseHeaderTitle{}}
-            \ExerciseHeaderOrigin{}
-            \vspace{0.25\baselineskip}
-            %\smallskip{}
-            %\textit{\ExerciseName{}}
-        }
-    }
+
+% Перевод.
+\DeclareExerciseTranslations{exercise}{Russian = Задача}
+\DeclareExerciseTranslations{solution}{Russian = Решение задачи}
+
+% Оружение.
+\DeclareExerciseType{exercise}{
+    exercise-env = exercise ,
+    solution-env = solution ,
+    exercise-name = \XSIMtranslate{exercise} ,
+    exercises-name = \XSIMtranslate{exercises} ,
+    solution-name = \XSIMtranslate{solution} ,
+    solutions-name = \XSIMtranslate{solutions} ,
+    exercise-template = runin ,
+    solution-template = runin-sol ,
+    exercise-heading = \normalsize \textbf ,
+    solution-heading = \normalsize \textbf ,
+    counter = TheoremCounter
 }
 
-% Заголовок ответа.
-\renewcommand{\AnswerHeader}
-{
-    %\medskip
-    \leftline
-    {
-        \textbf
-        {
-            Решение задачи \ExerciseHeaderNB{}
-        }
-        \vspace{0.25\baselineskip}
-    }
-}
-
-% Пропуск после упражнения и ответа.
-\setlength{\ExerciseSkipBefore}{1.0\baselineskip}
-\setlength{\ExerciseSkipAfter}{1.0\baselineskip}
-\setlength{\AnswerSkipBefore}{0.0\baselineskip}
-\setlength{\AnswerSkipAfter}{1.0\baselineskip}
-
-% Счётчик для упражнений внутри секции.
-\newcounter{SecExercise}
-%\counterwithin{SecExercise}{section}
-%\counterwithin*{SecExercise}{subsection}
-
-% Счётчик для бонусных задач.
-\newcounter{BonusExercise}
+\xsimsetup{solution/print=true}

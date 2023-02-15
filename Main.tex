@@ -19,17 +19,14 @@
 \usepackage{amsthm}
 %\usepackage{thmtools}
 
+% Упражнения.
+\usepackage[use-files, blank, clear-aux]{xsim}
+
 % Русский язык.
 \usepackage{cmap}
 \usepackage[T2A]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
-
-% Кастомизируемые хэдеры и футеры.
-%\usepackage{fancyhdr}
-
-% Табуляция перед первым параграфом.
-%\usepackage{indentfirst}
 
 % Нижнее подчёркивание с переносами.
 \usepackage[normalem]{ulem}
@@ -60,21 +57,12 @@
 % Элементы на следующей странице.
 \usepackage{afterpage}
 
-% Задачи.
-\usepackage[lastexercise]{exercise}
-
 % Сброс счётчика.
 \usepackage{chngcntr}
 
 % Графика TikZ
 \usepackage{tikz}
-%\usepackage{tikz-qtree}
-%\usetikzlibrary{calc}
 \usetikzlibrary{trees,calc,arrows.meta,positioning,decorations.pathreplacing,bending,matrix}
-%\usetikzlibrary{trees}
-
-% Таблицы Юнга.
-\usepackage{ytableau}
 
 % Enum и item на одной строке.
 \usepackage[inline]{enumitem}
@@ -91,9 +79,6 @@
 % Математические символы и прочие дефайны.
 \input{includes/defines.tex}
 
-% Настройки пакета с упражнениями.
-\input{includes/exercise.tex}
-
 % Картинки.
 \input{includes/figures.tex}
 
@@ -109,16 +94,10 @@
 % Настройки пакета asmthm.
 \input{includes/theorems.tex}
 
+% Настройки пакета с упражнениями.
+\input{includes/exercise.tex}
 
-% Правила вывода.
-\newcommand{\typerule}[2]{%
-    \begin{tabular}{c}
-    $#1$ \\
-    \hline
-    %\midrule
-    $#2$
-    \end{tabular}%
-}
+
 
 
 % Inline item.
@@ -137,7 +116,6 @@
 
 
 % Выделение в определении
-%\newcommand{\defemph}[1]{\textbf{\textit{#1}}}
 \DeclareTextFontCommand{\defemph}{\bfseries\em}
 
 % Нумерация русскими буквами.

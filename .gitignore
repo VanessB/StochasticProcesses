@@ -1,11 +1,13 @@
 *.aux
+*.gnuploterrors
 *.log
 *.out
 *.toc
 *.pdf
 *.swp
+*.xsim
 gnuplottex/
-*.gnuploterrors
+xsim/
 
 !Main.pdf
 !Homework.pdf

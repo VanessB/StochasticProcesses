@@ -143,7 +143,7 @@
         \item
             Из определения распределения Пуассона:
             \[
-                \proba\{K_t = k\} = \frac{(\lambda t)^k}{k!} e^{-\lambda}
+                \proba\{K_t = k\} = \frac{(\lambda t)^k}{k!} e^{-\lambda t}
             \]
     \end{enumerate}
 \end{statement}
@@ -708,3 +708,104 @@
         \covariance{(W_t - W_s)W_s}{W_s^2} = ts + 2 \min\{t^2, s^2\} - ts = 2 \min\{t^2, s^2\}
     \]
 \end{solution}
+
+
+\begin{exercise}
+    \label{exercise:special:Wiener_process_integral_sum}
+    Для винеровского процесса $ W $ и разбиения $ T = \{ a = t_0 < t_1 < \ldots < t_{n+1} = b \} $ отрезка $ [a; b] $
+    введём случайную величину $ Z(T) = \sum_{k=0}^n (W_{t_{k+1}} - W_{t_k} )^2 $.
+    Найдите предел в $ \lebesgue_2 $ (в среднем квадратичном) случайных величин $ Z(T) $ при устремлении мелкости разбиения $ d(T) $ к нулю.
+\end{exercise}
+
+\begin{solution}
+    Напмним, что случайная величина $ \eta $ является пределом в среднем квадратичном последовательности случайных величин $ \{ \xi_n \}_{n \in \naturals} $,
+    если $ \expect |\xi_n - \eta|^2 \limarrow{n \to \infty} 0 $.
+    В нашем случае вместо $ n \to \infty $ имеем $ d(T) \to 0 $.
+
+    Покажем, что искомым пределом является константная случайная величина~--- $ (b - a) $.
+    Для этого заметим, что из независимости приращений и их распределения следует
+    \[
+        \expect \left( \sum_{k=0}^n (W_{t_{k+1}} - W_{t_k})^2 \right) = \sum_{k=0}^n (t_{k+1} - t_k) = b - a
+    \]
+    Таким образом, $ (b - a) $ есть ни что иное, как $ \expect Z(T) $.
+    Тогда
+    \[
+        \expect \left( \sum_{k=0}^n (W_{t_{k+1}} - W_{t_k})^2 - (b - a) \right)^2 = \dispersion \left( \sum_{k=0}^n (W_{t_{k+1}} - W_{t_k})^2 \right)
+    \]
+    В очередной раз воспользовавшись независимостью и нормальностью приращений, получаем
+    \begin{multline*}
+        \dispersion \left( \sum_{k=0}^n (W_{t_{k+1}} - W_{t_k})^2 \right) = \sum_{k=0}^n \dispersion (W_{t_{k+1}} - W_{t_k})^2 = \sum_{k=0}^n \left( 3 (t_{k+1} - t_k)^2 - (t_{k+1} - t_{k})^2 \right) = \\
+        = 2 \sum_{k=0}^n (t_{k+1} - t_k)^2 \leqslant 2 \cdot d(T) \cdot \sum_{k=0}^n (t_{k+1} - t_k) = 2 \cdot d(T) \cdot (b - a) \limarrow{d(T) \to 0} 0
+    \end{multline*}
+\end{solution}
+
+
+\begin{theorem}[Башелье]
+    \label{theorem:special:Bachelier_theorem}
+    Пусть $ W $~--- винеровский процесс, $ t > 0 $.
+    Случайная величина $ M_t = \sup_{s \in [0; t]} W_s $ имеет такое же распределение, как и $ |W_t| $.
+\end{theorem}
+
+
+\begin{exercise}
+    \label{exercise:special:Wiener_process_reach_point_time_expectation}
+    Пусть $ W $~--- винеровский процесс, $ y > 0 $ и $ \tau_y = \inf \{ t \mid W_t = y \} $.
+    Вычислить $ \expect \tau_y $.
+\end{exercise}
+
+\begin{solution}
+    Воспользовавшись теоремой \ref{theorem:special:Bachelier_theorem},
+    найдём распределение $ \tau_y $:
+    \[
+        \proba \{ \tau_y \geqslant t \} = \proba \{ M_t < y \} = \proba \{ W_t \in [-y; y] \} = F_{\normal(0, t)}(y) - F_{\normal(0, t)}(-y) = 2 (F_{\normal(0, t)}(y) - 1/2)
+    \]
+    Заметим, что
+    \[
+        \frac{\partial}{\partial t} F_{\normal(0, t)}(y) = \frac{\partial}{\partial t} \int\limits_{-\infty}^y \frac{e^{-\frac{x^2}{2 t}}}{\sqrt{2 \pi t}} \, dx =
+        \frac{\partial}{\partial t} \int\limits_{-\infty}^{y / \sqrt{t}} \frac{e^{-\frac{x^2}{2}}}{\sqrt{2 \pi}} \, dx = - \frac{y}{2 \sqrt{t^3}} \cdot \frac{e^{-y^2 / 2t}}{\sqrt{2 \pi}}
+    \]
+    Отсюда
+    \[
+        \rho_{\tau_y}(t) = \frac{\partial}{\partial t} \proba \{ \tau_y < t \} = \frac{\partial}{\partial t} \left[ 1 - 2 (F_{\normal(0, t)}(y) - 1/2) \right] = \frac{y}{\sqrt{t^3}} \cdot \frac{e^{-y^2 / 2t}}{\sqrt{2 \pi}}
+    \]
+    \[
+        \expect \tau_y = \int\limits_0^{+\infty} t \cdot \rho_{\tau_y}(t) \, dt = + \infty
+    \]
+\end{solution}
+
+
+\begin{exercise}
+    \label{exercise:special:exponentiated_Wiener_process}
+    Пусть $ W $~--- винеровский процесс.
+    Вычислить математическое ожидание процесса $ X_t = \exp(W_t - t/2) - 1 $ и доказать,
+    что он имеет ортогональные приращения,
+    то есть для $ 0 < t_1 < t_2 \leqslant t_3 < t_4 $ справедливо $ \expect \left( (X_{t_4} - X_{t_3})(X_{t_2} - X_{t_1}) \right) = 0 $.
+\end{exercise}
+
+\begin{solution}
+    Величина $ e^{W_t} $ распределена логнормально с параметрами $ (\mu, \sigma) = (0, t) $, а потому $ \expect e^{W_t} = e^{0-t/2} $.
+    Тогда $ \expect X_t = e^{t/2 - t/2} - 1 = 0 $.
+    Пусть $ 0 < t_1 < t_2 \leqslant t_3 < t_4 $.
+    В этом случае
+    \begin{multline*}
+        \expect \left( \left( e^{W_{t_4} - t_4/2} - e^{W_{t_3} - t_3/2} \right) \left( e^{W_{t_2} - t_2/2} - e^{W_{t_1} - t_1/2} \right) \right) = \\
+        = e^{-(t_2 + t_4)/2} \expect \left( e^{W_{t_2} + W_{t_4}} \right) - e^{-(t_1 + t_4)/2} \expect \left( e^{W_{t_1} + W_{t_4}} \right)
+        - e^{-(t_2 + t_3)/2} \expect \left( e^{W_{t_2} + W_{t_3}} \right) + e^{-(t_1 + t_3)/2} \expect \left( e^{W_{t_1} + W_{t_3}} \right)
+    \end{multline*}
+    Рассмотрим произвольное слагаемое (например, первое).
+    Пользуясь независимостью приращений,
+    \[
+        \expect \left( e^{W_{t_2} + W_{t_4}} \right) = \expect \left( e^{2 W_{t_2} + W_{t_4} - W_{t_2}} \right) = \expect \left( e^{2 W_{t_2}} \right) \expect \left( e^{W_{t_4} - W_{t_2}} \right)
+    \]
+    Аналогично, пользуясь свойством логнормального распределения, получаем
+    \[
+        \expect \left( e^{2 W_{t_2}} \right) \expect \left( e^{W_{t_4} - W_{t_2}} \right) = e^{4 t_2 / 2} \cdot e^{(t_4 - t_2) / 2}
+        \qquad \Longrightarrow \qquad
+        e^{-(t_2 + t_4)/2} \expect \left( e^{W_{t_2} + W_{t_4}} \right) = e^{t_2}
+    \]
+    Отсюда
+    \[
+        \expect \left( (X_{t_4} - X_{t_3})(X_{t_2} - X_{t_1}) \right) = e^{t_2} - e^{t_1} - e^{t_2} + e^{t_1} = 0
+    \]
+\end{solution}
+

@@ -412,7 +412,7 @@
     Да, существует.
     Мы знаем, что $e^{-|t|} $ есть характеристическая функция распределения Коши.
     Поэтому это неотрицательно определённая функция.
-    Значит, $ R(s, t) = e^{-|s - t|} $ неотрицательно определена и симметрична.
+    Значит $ R(s, t) = e^{-|s - t|} $ неотрицательно определена и симметрична.
     \newline
     \textit{Пример реализаций процесса
         %из задачи \ref{exercise:special:gaussian_from_characteristic_function_of_Cauchy}
@@ -455,7 +455,7 @@
     \label{figure:special:gaussian_proccess_te14_realizations}
 \end{figure}
 
-Напомним также несколько фатов касательно гауссовских векторов,
+Напомним также несколько фактов касательно гауссовских векторов,
 которые пригодятся при исследовании гауссовских процессов.
 
 \begin{statement}
@@ -569,7 +569,8 @@
 \begin{definition}
     \label{definition:special:Wiener_process_as_gaussian}
     \defemph{Винеровским процессом} называется гауссовский случайный процесс $ W \colon \Omega \times [0;+\infty) \to \reals $ такой,
-    что $ \expect W_t = 0 $, $ \expect \rvcenter W_t \rvcenter W_s = \min \{t, s\} $.
+    что %$ \expect W_t = 0 $, $ \expect \rvcenter W_t \rvcenter W_s = \min \{t, s\} $.
+    $ m_W(t) = 0 $, $ R_W(t, s) = \min \{t, s\} $.
 \end{definition}
 
 Наконец, дадим третье эквивалентное определение:
@@ -705,7 +706,7 @@
         \expect W_t^2 = t, \qquad \expect W_s^2 = s
     \]
     \[
-        \covariance{(W_t - W_s)W_s}{W_s^2} = ts + 2 \min\{t^2, s^2\} - ts = 2 \min\{t^2, s^2\}
+        R_{W^2}(t, s) = K_{W^2}(t,s) - m_{W^2}(t) m_{W^2}(s) = ts + 2 \min\{t^2, s^2\} - ts = 2 \min\{t^2, s^2\}
     \]
 \end{solution}
 
@@ -783,7 +784,7 @@
 \end{exercise}
 
 \begin{solution}
-    Величина $ e^{W_t} $ распределена логнормально с параметрами $ (\mu, \sigma) = (0, t) $, а потому $ \expect e^{W_t} = e^{0-t/2} $.
+    Величина $ e^{W_t} $ распределена логнормально с параметрами $ (\mu, \sigma^2) = (0, t) $, а потому $ \expect e^{W_t} = e^{0-t/2} $.
     Тогда $ \expect X_t = e^{t/2 - t/2} - 1 = 0 $.
     Пусть $ 0 < t_1 < t_2 \leqslant t_3 < t_4 $.
     В этом случае

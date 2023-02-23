@@ -9,7 +9,7 @@
     \Needspace*{2\baselineskip}
     \noindent
     \textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}}%
-    \GetExercisePropertyT{subtitle}{ #1}\textbf{.} % <<< notice the space
+    \GetExercisePropertyT{subtitle}{\enspace#1}\textbf{.} % <<< notice the space
     \IfInsideSolutionF{%
         \GetExercisePropertyT{points}{%
             \marginpar{
@@ -33,7 +33,7 @@
     \Needspace*{2\baselineskip}
     \noindent
     \textbf{\XSIMmixedcase{\GetExerciseName}~\GetExerciseProperty{counter}. }%
-    %\GetExercisePropertyT{subtitle}{ \textit{#1}} % <<< notice the space
+    %\GetExercisePropertyT{subtitle}{\enspace\textit{#1}} % <<< notice the space
     \IfInsideSolutionF{%
         \GetExercisePropertyT{points}{%
             \marginpar{

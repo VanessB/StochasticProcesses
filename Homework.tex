@@ -17,6 +17,9 @@
 \usepackage{amsthm}
 %\usepackage{thmtools}
 
+% Упражнения.
+\usepackage[use-files, blank, clear-aux]{xsim}
+
 % Русский язык.
 \usepackage{cmap}
 \usepackage[T2A]{fontenc}
@@ -58,21 +61,11 @@
 % Элементы на следующей странице.
 \usepackage{afterpage}
 
-% Задачи.
-\usepackage[lastexercise]{exercise}
-
 % Сброс счётчика.
 \usepackage{chngcntr}
 
 % Графика TikZ
 \usepackage{tikz}
-%\usepackage{tikz-qtree}
-%\usetikzlibrary{calc}
-\usetikzlibrary{trees,calc,arrows.meta,positioning,decorations.pathreplacing,bending,matrix}
-%\usetikzlibrary{trees}
-
-% Таблицы Юнга.
-\usepackage{ytableau}
 
 % Enum и item на одной строке.
 \usepackage[inline]{enumitem}
@@ -89,14 +82,8 @@
 % Математические символы и прочие дефайны.
 \input{includes/defines.tex}
 
-% Настройки пакета с упражнениями.
-\input{includes/exercise.tex}
-
 % Картинки.
 \input{includes/figures.tex}
-
-% Специальные обозначения бкув.
-\input{includes/letters.tex}
 
 % Теория вероятностей.
 \input{includes/probability.tex}
@@ -107,16 +94,9 @@
 % Настройки пакета asmthm.
 \input{includes/theorems.tex}
 
+% Настройки пакета с упражнениями.
+\input{includes/exercise.tex}
 
-% Правила вывода.
-\newcommand{\typerule}[2]{%
-    \begin{tabular}{c}
-    $#1$ \\
-    \hline
-    %\midrule
-    $#2$
-    \end{tabular}%
-}
 
 
 % Inline item.
@@ -149,12 +129,10 @@
 \newcounter{HomeExercise}
 \counterwithin{HomeExercise}{section}
 
-\setlength{\ExerciseSkipBefore}{0.5\baselineskip}
-\setlength{\ExerciseSkipAfter}{0.5\baselineskip}
-\setlength{\AnswerSkipBefore}{0.0\baselineskip}
-\setlength{\AnswerSkipAfter}{0.5\baselineskip}
 
-
+% Метки заданий
+\def\canon{\textbf{(каноническое задание)}}
+\def\practice{\textbf{(практическое задание)}}
 
 
 
@@ -177,97 +155,88 @@
 \silentsection{Домашнее задание на первую неделю}
 \stepcounter{section}
 
-\begin{Exercise}[counter=HomeExercise, title={(Задача из канонического задания)}]
-    \noindent
+\begin{exercise}[subtitle={\canon}]
     Пусть случайный процесс $ X(\omega, t) = \omega t $, $ t \in [0; 1] $,
     определен на вероятностном пространстве $ (\Omega, \setfamily, \proba) $,
     где $ \Omega = \{1, 2, 3\} $, $ \setfamily $~--- множество всех подмножеств множества $ \Omega $,
     а мера $ \proba $ такова, что $ \proba(\{1\}) = \proba(\{2\}) = \proba(\{3\}) = 1/3 $.
     Построить вторичное (выборочное) вероятностное пространство процесса.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Случайный процесс $ X $ задан формулой $ X_t = t \cdot \eta $, где $ \eta \sim \uniform_{(0; 1)} $, $ t \in (0; 1) $.
     Найдите $ n $-мерные функции распределения этого процесса.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Найдите математическое ожидание, дисперсию и корреляционную функцию процесса из предыдущей задачи.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Пусть дана случайная величина $ \eta \sim \uniform_{[0;1]} $.
     Определим случайный процесс $ X_t = \indicator_{(-\infty; \eta]}(t) $.
     Найдите вероятность, что скачок с единицы до нуля произойдёт на интервале $ [t_0; t_0 + \Delta t] $,
     если достоверно известно, что на $ [0; t_0] $ скачка не было
     (параметр $ \Delta t $ задан и строго меньше $ 1 - t_0 $).
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Пусть $ \xi $ и $ \eta $~--- независимые случайные величины с функциями распределения $ F_\xi(x) $ и $ F_\eta(y) $.
     Пусть $ X $~--- случайный процесс, определённый формулой $ X_t = \xi \cdot t + \eta $.
     Найдите семейство конечномерных распределений процесса.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Пусть $ X_1 $, $ X_2 $~--- два независимых случайных процесса с корреляционными функциями $ R_{X_1}(t, s) $ и $ R_{X_2}(t, s) $
     и функциями среднего $ m_{X_1}(t) $ и $ m_{X_2}(t) $.
     Найдите корреляционную функцию процесса $ Y = X_1 \cdot X_2 $.
-\end{Exercise}
+\end{exercise}
+
+\newpage
 
 
 
 \silentsection{Домашнее задание на вторую неделю}
 \stepcounter{section}
 
-\begin{Exercise}[counter=HomeExercise, title={(Задача из канонического задания)}]
-    \noindent
+\begin{exercise}[subtitle={\canon}]
     Поток сделок в фирме моделируется с помощью пуассоновского процесса $ K $ c интенсивностью $ \lambda = 100 \; \text{сделок}/\text{час} $.
     Каждая сделка приносит доход $ V_i \sim \uniform_{[a;b]} $, $ a = 10 $, $ b = 100 $ условных единиц денег.
     Считая, что $ K $, $ \{ V_i \}_{i \in \naturals} $~--- независимые в совокупности случайные величины,
     найдите математическое ожидание, дисперсию и характеристическую функцию выручки за время $ t $.
     Докажите, что она имеет асимптотически нормальное распределение.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise, title={(Задача из канонического задания)}]
-    \noindent
+\begin{exercise}[subtitle={\canon}]
     Случайный процесс $ X $ представляет собой сумму $ n $ независимых пуассоновских процессов
     с интенсивностями $ \{ \lambda_i \}_{i \in \{1, \ldots, n\}} $.
     Определить тип и параметры процесса $ X $.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise, title={(Задача из канонического задания)}]
-    \noindent
+\begin{exercise}[subtitle={\canon}]
     Пусть $ K $~--- пуассоновский случайный процесс интенсивности $ \lambda $,
     а X~--- случайный процесс, полученный в результате удаления из $ K $ всех событий,
     очередной номер которых не кратен $ s $.
     Определить тип и параметры распределения интервала между соседними событиями в случайном процессе $ X $.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Пусть $ \{ \xi_k \}_{k \in \naturals} $ все независимы в совокупности и имеют одинаковое распределение $ U_{[3;5]} $.
     Покажите, что процесс восстановления, построенный по этим случайным величинам
     (т. е. процесс вида $ X_t = \sup\{n \mid \xi_1 + \ldots + \xi_n \leqslant t\} $)
     не является процессом с независимыми приращениями.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Пусть $ K $~--- пуассоновский процесс с интенсивностью $ \lambda > 0 $.
     Какие из следующих процессов имеют независимые приращения?
     \begin{enumerate}
@@ -276,25 +245,22 @@
         \item $ X_t = K_{t^2 - t + 1} $, $ t \geqslant 0 $.
         \item $ X_t = K_t^2 $, $ t \geqslant 0 $.
     \end{enumerate}
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Пусть $ K $~--- пуассоновский процесс с интенсивностью $ \lambda > 0 $.
     Найдите вероятность, что в момент времени $ t $ число $ K_t $ чётно.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise]
-    \noindent
+\begin{exercise}
     Найдите предел при $ t \to +\infty $ (почти наверное) величины $ K_t / t $,
     где $ K $~--- пуассоновский процесс интенсивности $ \lambda \geqslant 0 $.
-\end{Exercise}
+\end{exercise}
 
 
-\begin{Exercise}[counter=HomeExercise, title={(Практическое задание)}]
-    \noindent
+\begin{exercise}[subtitle={\practice}]
     Вас приняли на должность системного администратора в известную IT-компанию <<Рога и Копыта>>.
     Одной из ваших задач является стресс-тестирование сетевой инфраструктуры компании.
     Для моделирования потока данных от пользователей вы решили использовать сложный пуассоновский процесс с интенсивностью $ \lambda $.
@@ -317,7 +283,66 @@
     Зафиксируем $ \sigma^2 = \mu $.
     Взяв в качестве максимальной пропускной способности $ Q_{\text{max}} = \lambda \cdot e^{3 \mu} $,
     путём компьютерного моделирования оценить частоту выхода канала из строя при работе в течение времени $ 100 / \lambda $.
-\end{Exercise}
+\end{exercise}
+
+\newpage
+
+
+
+\silentsection{Домашнее задание на третью неделю}
+\stepcounter{section}
+
+\begin{exercise}[subtitle={\canon}]
+    Пусть имеется случайный вектор $ \xi \sim \normal(0, R) $ с матрицей ковариаций
+    \[
+        R =
+        \begin{bmatrix}
+            2 & 1 & 0 \\
+            1 & 3 & 1 \\
+            0 & 1 & 1
+        \end{bmatrix}
+    \]
+    Вычислить $ \expect (\xi_1^2 \xi_2^2) $, $ \expect (\xi_1 \xi_2^3 \xi_3) $, $ \expect (\xi_1 \xi_2 \xi_3^2) $.
+\end{exercise}
+
+
+\begin{exercise}[subtitle={\canon}]
+    Пусть $ X $~--- нормальный (гауссовский) случайный процесс с математическим ожиданием и корреляционной функцией, соответственно,
+    \[
+        m_X(t) = m = const, \qquad
+        R_X(t, s) = b e^{-a|t - s|}, \quad a > 0, \; b > 0
+    \]
+    Найти вероятность $ \proba \{ X_t > c \mid X_s = x \} $ для $ t > s $.
+\end{exercise}
+
+
+\begin{exercise}[subtitle={(\textit{<<броуновский мост>>})}]
+    Рассмотрим два случайных процесса.
+    Первый~--- гауссовский с нулевым математическим ожиданием и $ R(s, t) = \min\{ s, t \} - st $.
+    Второй определяется через процесс Винера по закону $ Y_t = W_t - t W_1 $.
+    Докажите, что эти гауссовские процессы совпадают.
+\end{exercise}
+
+
+\begin{exercise}[subtitle={(\textit{процесс Орнштейна-Уленбека})}]
+    Рассмотрим два случайных процесса.
+    Первый~--- гауссовский с нулевым математическим ожиданием и $ R(s, t) = e^{-|t-s|/2} $.
+    Второй определяется через процесс Винера по закону $ Y_t = e^{-t/2} W_{e^t} $.
+    Докажите, что эти гауссовские процессы совпадают.
+\end{exercise}
+
+
+\begin{exercise}
+    Найдите корреляционную функцию процесса $ X_t = W_t^2 - W_t $, $ t \geqslant 0 $.
+\end{exercise}
+
+
+\begin{exercise}
+    Для винеровского процесса $ W_t $ вычислите условное математическое ожидание и дисперсию
+    $ \expect (W_t \mid W_s = x) $ и $ \dispersion (W_t \mid W_s = x) $ для произвольных $ t \geqslant 0 $, $ s \geqslant 0 $, $ x \in \reals $.
+\end{exercise}
+
+
 
 
 \end{document}

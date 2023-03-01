@@ -1,0 +1,336 @@
+\section{Элементы стохастического анализа} \label{section:calculus}
+
+Общая цель данного раздела~--- дать стохастические аналоги привычным определениям из математического анализа~---
+пределу, производной и интегралу~--- для случайных процессов.
+Как мы помним, в теории вероятностей было несколько типов сходимости случайных величин,
+поэтому и для случайных процессов есть много вариантов определить вышеуказанное.
+Изучаемые в этом курсе варианты не претендуют на полноту охвата.
+
+Начнём с некоторых вспомогательных утверждений, следующих напрямую из функционального анализа.
+Вспомним, что множество случайных величин на вероятностном пространстве $ (\Omega, \setfamily, \proba) $
+с конечным вторым моментом образует гильбертово пространство $ \lebesgue_2 (\Omega, \setfamily, \proba) $
+со скалярным произведением, определённым по формуле $ \displaystyle \dotprod{\xi}{\eta} \defeq \expect (\xi \eta) = \int_\Omega \xi(\omega) \eta(\omega) \, d\omega $.
+Пользуясь этим, приведём ряд свойств гильбертовых пространств, полезных для задач теории вероятностей.
+\begin{itemize}
+    \item
+        Неравенство Коши-Буняковского-Шварца: $ \dotprod{\xi}{\eta}^2 \leqslant \dotprod{\xi}{\xi} \cdot \dotprod{\eta}{\eta} $.
+        Отсюда, например, $ (\expect \xi)^2 \leqslant \expect (\xi^2) $ (если взять $ \eta \equiv 1 $).
+    \item
+        Скалярное произведение~--- непрерывная функция обеих своих переменных в смысле топологии,
+        порождённой нормой $ \| \xi \| = \sqrt{\dotprod{\xi}{\xi}} $.
+
+        Так как пространство является нормированным, непрерывность также является секвенциальной непрерывностью:
+        если $ \xi_n \limarrow[\convnorm]{n \to \infty} \xi $ и $ \eta_n \limarrow[\convnorm]{n \to \infty} \eta $, то и $ \dotprod{\xi_n}{\eta_n} \limarrow{n \to \infty} \dotprod{\xi}{\eta} $.
+        В частности, $ \expect (\xi_n \eta_n) \limarrow{n \to \infty} \expect (\xi \eta) $.
+
+        Отсюда следует возможность перестановки передела и математического ожидания:
+        \begin{statement}
+            \label{statement:calculus:swap_expectation_and_limit}
+            $ \displaystyle \lim_{n \to \infty} \expect \xi_n = \expect \limmeansq_{n \to \infty} \xi_n $.
+        \end{statement}
+    \item
+        Можно получить аналог критерия Коши:
+        \begin{statement}
+            \label{statement:calculus:dotprod_converges_to_const}
+            Если для последовательности $ \{ \xi_n \}_{n \in \naturals} $ случайных величин из $ \lebesgue_2 (\Omega, \setfamily, \proba) $
+            найдётся константа $ C $ такая, что для всяких подпоследовательностей $ \{ \xi_{n_k} \}_{k \in \naturals} $ и $ \{ \xi_{m_k} \}_{k \in \naturals} $
+            выполнено $ \dotprod{\xi_{n_k}}{\xi_{m_k}} \limarrow{k \to \infty} C $,
+            то $ \displaystyle \exists \xi \colon \limmeansq_{n \to \infty} \xi_n = \xi $.
+        \end{statement}
+
+        \begin{proof}
+            \[
+                \| \xi_{n_k} - \xi_{m_k} \|^2 = \dotprod{\xi_{n_k}}{\xi_{n_k}} - 2 \dotprod{\xi_{n_k}}{\xi_{m_k}} + \dotprod{\xi_{m_k}}{\xi_{m_k}} \limarrow{k \to \infty} C - 2 \cdot C + C = 0
+            \]
+            Отсюда по критерию Коши получаем существование предела.
+        \end{proof}
+\end{itemize}
+
+
+\subsection{Непрерывность} \label{subsection:continuity}
+
+Ранее мы уже приводили определение непрерывного случайного процесса,
+основанное на понятии <<почти всюду>> (см. определение \ref{definition:basics:continious_stochastic_process}).
+Приведём аналогичные определения для других типов сходимости.
+
+\begin{definition}
+    \label{definition:calculus:continious_stochastic_process_mean_squares}
+    Случайный процесс $ X $ называется \defemph{непрерывным в среднем квадратичном в точке $ t \in T $} в случае $ X_{t + \Delta t} \limarrow[\convmeansq]{\Delta t \to 0} X_t $.
+\end{definition}
+
+\begin{definition}
+    \label{definition:calculus:continious_stochastic_process_probability}
+    Случайный процесс $ X $ называется \defemph{непрерывным по вероятности в точке $ t \in T $} в случае $ X_{t + \Delta t} \limarrow[\convproba]{\Delta t \to 0} X_t $.
+\end{definition}
+
+\begin{definition}
+    \label{definition:calculus:continious_stochastic_process_distribution}
+    Случайный процесс $ X $ называется \defemph{непрерывным по распределению в точке $ t \in T $} в случае $ X_{t + \Delta t} \limarrow[\convdistr]{\Delta t \to 0} X_t $.
+\end{definition}
+
+
+По аналогии с классическим математическим анализом далее можно ввести понятия непрерывности на множестве.
+
+В этом курсе мы будем в основном заниматься непрерывностью
+(а затем и дифференцируемостью и интегрируемостью) в среднем квадратичном.
+Для указанного типа непрерывности есть удобный критерий в терминах функций моментов:
+
+\begin{theorem}[Критерий непрерывности в среднем квадратичном]
+    \label{theorem:calculus:mean_squares_continuity_test}
+    Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item
+            Случайный процесс второго порядка $ X $ непрерывен в среднем квадратичном в точке~$ t $.
+        \item
+            Ковариационная функция $ K_X(t, s) $ непрерывна в точке $ (t, t) $. %на диагонали $ t = s $.
+        \item
+            Корреляционная функция $ R_X(t, s) $ непрерывна в точке $ (t,t) $, %на диагонали $ t = s $,
+            функция среднего $ m_X(t) $ непрерывна в точке $ t $.
+    \end{enumerate}
+\end{theorem}
+
+\begin{exercise}
+    \label{exercise:calculus:continuous_step_process}
+    Случайный процесс $ X $ определён как $ X_t = \xi \cdot \indicator_{(-\infty;r)}(t) + \eta \cdot \indicator_{[r;+\infty)}(t) $,
+    где $ t \in T = [0;1] $, $ \xi $ и $ \eta $~--- независимые одинаково распределённые нормальные случайные величины,
+    а $ r $~--- равномерно распределённая по $ T $ случайная величина, не зависящая от $ \xi $ и $ \eta $.
+    Исследовать процесс $ X $ на непрерывность в среднем квадратичном.
+\end{exercise}
+
+\begin{solution}
+    Заметим, что вероятность получить непрерывную реализацию процесса равна $ 0 $,
+    поскольку это означало бы, что $ \xi $ и $ \eta $ совпали
+    (таким образом, процесс не является непрерывным в смысле определения \ref{definition:basics:continious_stochastic_process}).
+    Однако, процесс оказывается непрерывным в среднем квадратическом.
+    Для доказательства этого воспользуемся теоремой выше.
+
+    Обозначим $ \expect \xi = \expect \eta = m $, $ \dispersion \xi = \dispersion \eta = D $.
+    Функция среднего:
+    \[
+        m_X(t) = \expect X_t = \expect (X_t \mid t < r) \proba \{t < r\} + \expect (X_t \mid t \geqslant r) \proba \{t \geqslant r\} = \expect \xi \cdot (1 - t) + \expect \eta \cdot t = m
+    \]
+    Пусть, без ограничения общности, $ s \leqslant t $.
+    Тогда корреляционная функция:
+    \begin{multline*}
+        R_X(t,s) = \expect \left( \rvcenter X_t \rvcenter X_s \right) =
+        \expect \left( \rvcenter X_t \rvcenter X_s \Mid r < s \right) \proba \{r < s\} +
+        \expect \left( \rvcenter X_t \rvcenter X_s \Mid s \leqslant r < t \right) \proba \{s \leqslant r < t\} + \\
+        + \expect \left( \rvcenter X_t \rvcenter X_s \Mid t \leqslant r \right) \proba \{t \leqslant r\} =
+        \expect (\rvcenter \xi \rvcenter \xi) \cdot s +
+        \expect (\rvcenter \xi \rvcenter \eta) \cdot (t - s) +
+        \expect (\rvcenter \eta \rvcenter \eta) \cdot (1 - t) =
+        D \cdot (1 + s - t)
+    \end{multline*}
+    \[
+        R_X(t, s) = D \cdot (1 - |t - s|)
+    \]
+    Функция среднего непрерывна, корреляционная функция непрерывна на диагонали $ s = t $.
+    Значит, $ X $ непрерывен в среднем квадратичном.
+\end{solution}
+
+
+
+\subsection{Дифференцирование} \label{subsection:derivative}
+
+\begin{definition}
+    \label{definition:calculus:derivative}
+    \defemph{Производной в среднем квадратичном случайного процесса $ X $ в точке $ t $} называется предел
+    \[
+        X_t' = \limmeansq_{\Delta t \to 0} \frac{X_{t + \Delta t} - X_t}{\Delta t}
+    \]
+    Если указанный предел существует, процесс $ X $ называют \defemph{дифференцируемым в среднем квадратичном в точке $ t $}.
+\end{definition}
+
+Абсолютно аналогично вводятся производные и в смысле других сходимостей.
+При этом можно получить следующее утверждение:
+
+\begin{statement}
+    \label{statement:calculus:continuity_from_differentiability}
+    В любом типе сходимости из дифференцируемости следует непрерывность.
+\end{statement}
+
+Как и в случае с непрерывностью в среднем квадратичном,
+есть удобный критерий, связывающий дифференцируемость в среднем квадратичном и функции моментов:
+
+\begin{theorem}[Критерий дифференцируемости в среднем квадратичном]
+    \label{theorem:calculus:mean_squares_differentiability_test}
+    Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item
+            Случайный процесс второго порядка $ X $ дифференцируем в среднем квадратичном в точке $ t $.
+        \item
+            Существует следующий двойной предел:
+            \[
+                \lim_{\Delta t, \Delta s \to 0} \frac{1}{\Delta t \Delta s}
+                \left( K_X(t + \Delta t, t + \Delta s) - K_X(t + \Delta t, t) - K_X(t, t + \Delta s) + K(t, t) \right)
+            \]
+        \item
+            Функция $ m_X(t) $ дифференцируема в точке $ t $ и существует следующий двойной предел:
+            \[
+                \lim_{\Delta t, \Delta s \to 0} \frac{1}{\Delta t \Delta s}
+                \left( R_X(t + \Delta t, t + \Delta s) - R_X(t + \Delta t, t) - R_X(t, t + \Delta s) + R(t, t) \right)
+            \]
+    \end{enumerate}
+\end{theorem}
+
+Заметим, что предел из утверждения теоремы не является смешанной производной.
+Смешанная производная выражается через повторный предел,
+мы же имеем дело с двойным пределом.
+Из существования данного передела следует существование смешанной производной;
+в обратную сторону это неверно.
+
+\begin{exercise}
+    \label{exercise:moments_functions_of_derivative}
+    Выразить функцию среднего и корреляционную функцию $ X_t' $ через $ m_X(t) $ и $ R_X(t, s) $.
+\end{exercise}
+
+\begin{solution}
+    \[
+        m_{X'}(t) = \expect \limmeansq_{\Delta t \to 0} \frac{X_{t + \Delta t} - X_t}{\Delta t} = \lim_{\Delta t \to 0} \frac{1}{\Delta t} \expect (X_{t + \Delta t} - X_t) =
+        \lim_{\Delta t \to 0} \frac{m_X(t + \Delta t) - m_X(t)}{\Delta t} = \frac{d}{d t} m_X(t)
+    \]
+    \begin{multline*}
+        R_{X'}(t, s) = \expect \left[ \limmeansq_{\Delta t \to 0} \frac{\rvcenter X_{t + \Delta t} - \rvcenter X_t}{\Delta t} \cdot
+        \limmeansq_{\Delta s \to 0} \frac{\rvcenter X_{s + \Delta s} - \rvcenter X_s}{\Delta s} \right] = \\
+        = \lim_{\Delta t, \Delta s \to 0} \frac{1}{\Delta t \Delta s} \left( \expect (\rvcenter X_{t + \Delta t} \rvcenter X_{s + \Delta s}) -
+        \expect (\rvcenter X_{t + \Delta t} \rvcenter X_s) - \expect (\rvcenter X_t \rvcenter X_{s + \Delta s}) + \expect (\rvcenter X_t \rvcenter X_s) \right) = \\
+        = \frac{\partial^2}{\partial t \partial s} R_X(t, s)
+    \end{multline*}
+    Отметим, что центрирование случайной величины (<<$ \rvcenter{X}_t' $>>) было сразу внесено внутрь предела и дроби.
+    Проверьте сами корректность данного шага.
+\end{solution}
+
+
+\begin{exercise}
+    \label{exercise:calculus:Poisson_process_continuity_and_differentiability}
+    Исследовать пуассоновский процесс на неперывность и дифференцируемость <<почти наверное>>, в среднем квадратичном, по вероятности и по распределению.
+\end{exercise}
+
+\begin{solution}
+    Непрерывности <<почти наверное>>, очевидно, нет (с вероятностью $ 1 $ траектории разрывны),
+    а потому нет и дифференцируемости (см. утверждение \ref{statement:calculus:continuity_from_differentiability}).
+
+    Непрерывность в среднем квадратичном имеет место, поскольку $ m_K(t) = \lambda t $ и $ R_K(t, s) = \lambda \min \{t, s\} $
+    непрерывны (в том числе и $ R_K $~--- на диагонали), а дифференцируемости в среднеквадратичном нет,
+    поскольку $ R_K $ не дифференцируема на диагонали.
+    Уже отсюда следует непрерывность по вероятности и распределению (вспомните диаграмму следования одного типа сходимости из другого).
+
+    Покажем дифференцируемость по вероятности.
+    Из неё последует непрерывность по вероятности, а также дифференцируемость и непрерывность по распределению.
+    Для этого надо выбрать кандидата для производной.
+    Попробуем взять тождественно нулевой случайный процесс $ X $.
+    Нужно проверить, что
+    \[
+        \forall \varepsilon > 0 \qquad \lim_{\Delta t \to 0} \proba \left\{ \left| \frac{K_{t + \Delta t} - K_t}{\Delta t} - X \right| > \varepsilon \right\} = 0
+    \]
+    Действительно,
+    \begin{multline*}
+        \proba \left\{ \left| \frac{K_{t + \Delta t} - K_t}{\Delta t} - 0 \right| > \varepsilon \right\} =
+        1 - \proba \left\{ \frac{K_{t + \Delta t} - K_t}{\Delta t} \leqslant \varepsilon \right\} =
+        1 - \proba \left\{ \frac{K_{\Delta t} - K_0}{\Delta t} \leqslant \varepsilon \right\} = \\
+        = 1 - \proba \{ K_{\Delta t} < \Delta t \cdot \varepsilon \} \leqslant 1 - \proba \{ K_{\Delta t} = 0 \} = 1 - e^{- \lambda \Delta t} \limarrow{\Delta t \to 0} 0
+    \end{multline*}
+\end{solution}
+
+
+\begin{exercise}
+    \label{exercise:calculus:Wiener_process_diffirentiability}
+    Показать, что винеровский процесс ни в какой точке не является дифференцируемым даже по распределению.
+\end{exercise}
+
+\begin{solution}
+    Рассмотрим $ X_t (\Delta t) = (W_{t + \Delta t} - W_t) / \Delta t $.
+    Из свойств винеровского процесса имеем $ X_t(\Delta t) \sim \normal(0, |\Delta t| / |\Delta t|^2) = \normal(0, |\Delta t|^{-1}) $.
+    Из сходимости по распределению следует сходимость характеристических функций поточечно к характеристической функции предельного распределения.
+    Характеристическая функция случайной величины $ X_t(\Delta t) $~--- $ \varphi(s) = \exp(- s^2 / |2 \Delta t|) $.
+    В точке $ s = 0 $ она равна единице, а в $ s \neq 0 $ сходится к нулю при $ \Delta t \to 0 $.
+    Значит, $ \varphi $ сходится поточечно к разрывной функции,
+    которая не может быть характеристической функцией никакого распределения.
+\end{solution}
+
+
+
+\subsection{Интегрирование по времени} \label{subsection:time_integration}
+
+\begin{definition}
+    \label{definition:calculus:integral_sum}
+    Пусть случайный процесс $ X $ определён на отрезке $ [a; b] $.
+    Рассмотрим разбиение $ \mathcal{T} $ этого отрезка $ a = t_0 < t_1 < \ldots < t_n = b $,
+    где на каждом полуинтервале $ \Delta_k = [t_{k-1}; t_k) $ длины $ \Delta t_k = t_k - t_{k-1} $ взято по точке $ \tau_k $.
+    \\[0.25\baselineskip]
+    Случайная величина $ Z(\partition) = \sum_{k=1}^n X_{\tau_k} \Delta t_k $ называется
+    \defemph{интегральной суммой Римана случайного процесса $ X $, построенной по разбиению $ \partition $}.
+    \\[0.25\baselineskip]
+    Величина $ d(\partition) = \max \Delta t_k $ называется \defemph{мелкостью разбиения $ \partition $}.
+\end{definition}
+
+\begin{definition}
+    \label{definition:calculus:integral}
+    \defemph{Интегралом Римана процесса $ X $ на отрезке $ [a; b] $ в смысле среднего квадратичного} называется предел
+    \[
+        \limmeansq_{d(\partition) \to 0} Z(\partition) \defeq \int\limits_a^b X_t \, dt
+    \]
+    Если указанный предел существует, процесс $ X $ называют \defemph{интегрируемым в среднем квадратичном на отрезке $ [a; b] $}.
+\end{definition}
+
+Аналогично математическому анализу вводятся интегралы по бесконечным отрезкам:
+берётся предел в нужном смысле (в нашем случае~--- в среднем квадратичном) при стремлении одного из концов в бесконечность.
+
+Как и в случае с непрерывностью и дифференцируемостью в среднем квадратичном,
+имеем удобный критерий интегрируемости:
+
+\begin{theorem}[Критерий интегрируемости в среднем квадратичном]
+    \label{theorem:calculus:mean_squares_integrability_test}
+    Следующие условия эквивалентны:
+    \begin{enumerate}
+        \item
+            Случайный процесс второго порядка $ X $ интегрируем в среднем квадратичном на отрезке $ [a; b] $.
+        \item
+            Существует и конечен следующий двойной интеграл Римана:
+            $ \displaystyle \int\limits_a^b \int\limits_a^b K_X(t, s) \, ds \, dt $.
+        \item
+            Существуют и конечны следующие интегралы Римана:
+            $ \displaystyle \int\limits_a^b m_X(t) \, dt $ и $ \displaystyle \int\limits_a^b \int\limits_a^b R_X(t, s) \, ds \, dt $.
+    \end{enumerate}
+\end{theorem}
+
+%Можно привести следующее утверждение,
+%неверное в общем случае для других типов сходимости:
+
+\begin{statement}
+    \label{statement:calculus:integrability_from_continuity}
+    Из непрерывности в среднем квадратичном следует интегрируемость в среднем квадратичном.
+\end{statement}
+
+
+\begin{exercise}
+    \label{exercise:calculus:crosscorrelation_derivative_integral}
+    Рассмотрим $ \lebesgue_2 $-процесс $ X $, дифференцируемый в среднем квадратичном на отрезке $ [a; b] \subseteq T $.
+    Пусть $ J_t = \int\limits_a^t X_s \, ds $.
+    Требуется найти взаимную корреляционную функцию процессов $ X' $ и $ J $,
+    то есть $ R_{X', J}(t, s) = \expect (\rvcenter X_t' \cdot \rvcenter J_s) $.
+\end{exercise}
+
+\begin{solution}
+    \begin{multline*}
+        R_{X', J}(t, s) = \expect \left[ \limmeansq_{\Delta t \to 0} \frac{\rvcenter X_{t + \Delta t} - \rvcenter X_t}{\Delta t} \cdot
+        \limmeansq_{d(\partition) \to 0} \sum_{k=1}^n \rvcenter X_{\tau_k} \Delta t_k \right] = \\
+        = \lim_{\Delta t, d(\partition) \to 0} \frac{1}{\Delta t}
+        \expect \left[ \sum_{k=1}^n \left( \rvcenter X_{t + \Delta t} \rvcenter X_{\tau_k} - \rvcenter X_t \rvcenter X_{\tau_k} \right) \Delta t_k \right] = \\
+        = \lim_{\Delta t, d(\partition) \to 0}
+        \sum_{k=1}^n \frac{R_X(t + \Delta t, \tau_k) - R_X(t, \tau_k)}{\Delta t} \Delta t_k =
+        \int\limits_0^s \frac{\partial R_X(t, \tau)}{\partial t} \, d \tau
+    \end{multline*}
+\end{solution}
+
+
+О связи интеграла Римана в среднем квадратичном и потраекторного интеграла говорит следующее замечание:
+
+\begin{remark}
+    \label{remark:calculus:trajectories_integrals}
+    Если почти все реализации случайного процесса $ X $ интегрируемы по Риману,
+    то потраекторный интеграл (интеграл траектории $ X(\omega, \blankarg) $ по времени)
+    есть случайная величина (то есть измеримая функция на $ (\Omega, \setfamily) $).
+    Если при этом $ X $ интегрируем в среднем квадратичном,
+    то потраекторный и среднеквадратичный интегралы совпадают с вероятностью $ 1 $.
+\end{remark}

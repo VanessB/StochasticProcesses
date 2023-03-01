@@ -5,10 +5,11 @@
 \def\symdiff{\,\triangle\,}                           % <<Симметрическая разность>>
 \def\connected{\leftrightsquigarrow}                  % Связность в графах.
 
-\def\boolfun{\mathcal{B}} % Булевы функции.
+% Большая черта в множествах.
+\def\Mid{\;\middle|\;}
 
 % Стрелки для сходимостей.
-\newcommand{\limarrow}[1]{\underset{#1}{\longrightarrow}}
+\newcommand{\limarrow}[2][\longrightarrow]{\underset{#2}{#1}}
 
 
 % Математическое операторы.
@@ -28,6 +29,8 @@
 \def\rationals{\mathbb{Q}}
 \def\reals{\mathbb{R}}
 \def\complexes{\mathbb{C}}
+
+\def\partition{\mathcal{T}} % Разбиение.
 
 % Функции.
 \def\blankarg{\, \cdot \,}

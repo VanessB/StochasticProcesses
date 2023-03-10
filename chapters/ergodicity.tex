@@ -1,0 +1,86 @@
+\section{Эргодичность} \label{section:ergodicity}
+
+При работе со стохастическими моделями иногда попадаются такие случайные процессы,
+для которых усреднение по вероятностному пространству в некотором смысле эквивалентно усреднению по времени.
+Это свойство позволяет получить некоторые характеристики процесса просто путём длительного наблюдения за одной из траекторий.
+Это довольно удобно в случаях, когда получить несколько реализаций процесса невозможно или дорого.
+Процессы с упомянутым свойством называются \defemph{эргодическими}.
+
+\begin{definition}
+    \label{definition:egrodicity:ergodicity}
+    Процесс $ X $ второго порядка называется \defemph{эргодическим по математическому ожиданию} в случае $ T = [0; +\infty) $, $ \expect X_t = m = const $ и
+    $ \displaystyle \limmeansq_{\tau \to +\infty} \frac{1}{\tau} \int_0^\tau X_t \, dt \defeq \limmeansq_{\tau \to +\infty} \mean{X}_\tau = m $.
+\end{definition}
+
+Для эргодического случайного процесса можно оценивать математическое ожидание,
+взяв достаточно длинную реализацию процесса $ X $ и вычислив по ней $ \mean{X}_\tau $.
+
+\begin{definition}
+    \label{definition:egrodicity:ergodicity_dispersion}
+    Процесс $ X $ второго порядка называется \defemph{эргодическим по дисперсии},
+    если процесс $ Y_t = \dispersion X_t $ эргодичен по математическому ожиданию.
+\end{definition}
+
+\begin{definition}
+    \label{definition:egrodicity:ergodicity_correlation}
+    Процесс $ X $ второго порядка называется \defemph{эргодическим по корреляционной функции},
+    если для любого $ \Delta t \geqslant 0 $ процесс $ Y_t = \covariance{X_t}{X_{t + \Delta t}} $ эргодичен по математическому ожиданию.
+\end{definition}
+
+\begin{theorem}[Критерий эргодичности]
+    \label{theorem:ergodicity:ergodicity_test}
+    Процесс второго порядка $ X $ с постоянным математическим ожиданием эргодичен по математическому ожиданию тогда и только тогда, когда
+    \[
+        \lim_{\tau \to +\infty} \frac{1}{\tau^2} \int\limits_0^\tau \int\limits_0^\tau R_X(t, s) \, dt \, ds = 0
+    \]
+\end{theorem}
+
+\begin{theorem}[Достаточное условие эргодичности]
+    \label{theorem:ergodicity:ergodicity_sufficient_condition}
+    Процесс второго порядка $ X $ с постоянным математическим ожиданием эргодичен по математическому ожиданию,
+    если $ \displaystyle \lim_{|t - s| \to +\infty} R_X(t, s) = 0 $.
+\end{theorem}
+
+
+\begin{exercise}
+    \label{exercise:ergodicity:Poisson}
+    Пусть $ K_t $~--- пуассоновский процесс.
+    Исследовать процесс $ X_t = K_{t+1} - K_t $ на эргодичность по математическому ожиданию и по дисперсии.
+\end{exercise}
+
+\begin{solution}
+    Это процесс второго порядка, так как он получен из другого процесса второго порядка (пуассоновского) линейной комбинацией сечений.
+    $ \expect X_t = \lambda (t + 1) - \lambda t = \lambda = const $.
+    Заметим, что при $ |t - s| > 1 $ верно $ R_X(t, s) = \covariance{K_{t+1} - K_t}{K_{s+1} - K_s} = 0 $
+    в силу независимости приращений пуассоновского процесса.
+    В таком случае выполнено достаточное условие эргодичности \ref{theorem:ergodicity:ergodicity_sufficient_condition}.
+\end{solution}
+
+
+\begin{exercise}
+    \label{exercise:ergodicity:exp_process}
+    Дан случайный процесс $ S_t = A \exp(at + \sigma W_t) $, $ t \geqslant 1 $,
+    где $ A $, $ a $, $ \sigma $~--- неслучайные константы.
+    Воспользовавшись понятием эргодичности, оценить величину $ a $.
+\end{exercise}
+
+\begin{solution}
+    Рассмотрим процесс
+    \[
+        X_t = \frac{1}{t} \ln \frac{S_t}{A} = a + \frac{W_t}{t}, \qquad t \geqslant 1
+    \]
+    Для него $ \expect X_t = a $,
+    \[
+        R_X(t, s) = \covariance{a + W_t / t}{a + W_s / s} = \frac{1}{t s} \covariance{W_t}{W_s} = \frac{min\{t, s\}}{t s} < +\infty
+    \]
+    То есть мы имеем дело с процессом второго порядка с константной функцией среднего.
+    Корреляционная функция данного процесса непрерывна на любом квадрате $ [1;\tau]^2 $,
+    а потому интегрируема.
+    Пользуясь критерием эргодичности,
+    \begin{multline*}
+        \frac{1}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau R_X(t,s) \, dt \, ds =
+        \frac{1}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau \frac{\min\{t, s\}}{t s} \, dt \, ds \leqslant \\ \leqslant
+        \frac{1}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau \frac{t}{t s} \, dt \, ds =
+        \frac{1}{\tau^2} \int\limits_1^\tau \frac{\tau - 1}{s} ds = \frac{(\tau - 1) \ln \tau}{\tau^2} \limarrow{\tau \to +\infty} 0
+    \end{multline*}
+\end{solution}

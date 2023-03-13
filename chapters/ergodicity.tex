@@ -67,11 +67,11 @@
 \begin{solution}
     Рассмотрим процесс
     \[
-        X_t = \frac{1}{t} \ln \frac{S_t}{A} = a + \frac{W_t}{t}, \qquad t \geqslant 1
+        X_t = \frac{1}{t} \ln \frac{S_t}{A} = a + \sigma \frac{W_t}{t}, \qquad t \geqslant 1
     \]
     Для него $ \expect X_t = a $,
     \[
-        R_X(t, s) = \covariance{a + W_t / t}{a + W_s / s} = \frac{1}{t s} \covariance{W_t}{W_s} = \frac{min\{t, s\}}{t s} < +\infty
+        R_X(t, s) = \covariance{a + \sigma W_t / t}{a + \sigma W_s / s} = \frac{\sigma}{t s} \covariance{W_t}{W_s} = \sigma \frac{min\{t, s\}}{t s} < +\infty
     \]
     То есть мы имеем дело с процессом второго порядка с константной функцией среднего.
     Корреляционная функция данного процесса непрерывна на любом квадрате $ [1;\tau]^2 $,
@@ -79,8 +79,8 @@
     Пользуясь критерием эргодичности,
     \begin{multline*}
         \frac{1}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau R_X(t,s) \, dt \, ds =
-        \frac{1}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau \frac{\min\{t, s\}}{t s} \, dt \, ds \leqslant \\ \leqslant
-        \frac{1}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau \frac{t}{t s} \, dt \, ds =
-        \frac{1}{\tau^2} \int\limits_1^\tau \frac{\tau - 1}{s} ds = \frac{(\tau - 1) \ln \tau}{\tau^2} \limarrow{\tau \to +\infty} 0
+        \frac{\sigma}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau \frac{\min\{t, s\}}{t s} \, dt \, ds \leqslant \\ \leqslant
+        \frac{\sigma}{\tau^2} \int\limits_1^\tau \int\limits_1^\tau \frac{t}{t s} \, dt \, ds =
+        \frac{\sigma}{\tau^2} \int\limits_1^\tau \frac{\tau - 1}{s} ds = \frac{\sigma (\tau - 1) \ln \tau}{\tau^2} \limarrow{\tau \to +\infty} 0
     \end{multline*}
 \end{solution}

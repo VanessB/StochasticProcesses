@@ -112,3 +112,177 @@
     так как $ (A, B, \varphi) $ и $ (A, B, \varphi') $ распределены одинаково.
     Отсюда следует, что $ Z $ стационарен по определению.
 \end{solution}
+
+
+\subsection{Спектральная теория стационарности} \label{subsection:stationarity:spectral_theory}
+
+В рамках данного раздела мы разберём теорию,
+полезную для исследования стационарных случайных процессов.
+Для большей общности мы будем рассматривать комплекснозначные случайные процессы
+(то есть функции из $ \Omega \times T $ в $ \complexes $).
+Практически все определения для обычных случайных процессов переносятся на комплекснозначные без изменений.
+Необходимо, однако, внести небольшую корректировку в определение ковариацонной и корреляционной функции:
+
+\begin{definition}
+    \label{definition:stationarity:second_order_moment_functions_compex}
+    Если $ \forall t_1, t_2 \in T $ существует и конечно $ \expect X_{t_1} X_{t_2}^* $,
+    то функции $ K_X(t_1, t_2) = \expect X_{t_1} X_{t_2}^* $ и $ R_X(t_1, t_2) = \expect \rvcenter X_{t_1} \rvcenter X_{t_2}^* $
+    определены и называются, соответственно, \defemph{ковариационной} и \defemph{корреляционной функциями}
+    комплекснозначного случайного процесса $ X $.
+\end{definition}
+
+С таким определением утверждение \ref{statement:special:correlation_function_is_semi_definite} остаётся в силе,
+только симметричность заменяется на эрмитовость: $ K_X(t,s) = K_X^*(s,t) $, $ R_X(t,s) = R_X^*(s,t) $.
+Если процесс также является стационарным,
+то по аналогии с вещественным случаем можно рассматривать $ R_X(t, s) $ как функцию одного аргумента: $ R_X(t - s) = R_X(\tau) $.
+
+Свойства корреляционной функции стационарного процесса схожи
+со свойствами характеристической функции некоторой случайной величины.
+Впрочем, последняя всегда равномерно непрерывна,
+а корреляционная функция не обязана даже быть непрерывной.
+
+\begin{theorem}[Бохнер-Х\'{и}нчин]
+    \label{theorem:stationarity:stationary_process_correlation_function_spectral_representation}
+    Непрерывная функция $ R_X(\tau) $ является корреляционной
+    для некоторого стационарного и непрерывного в среднем квадратичном процесса тогда и только тогда,
+    когда она представляется в виде интеграла Лебега-Стилтьеса
+    \begin{equation}
+        \label{equation:stationarity:stationary_process_correlation_function_spectral_representation}
+        R_X(\tau) = \int_\reals e^{i \lambda \tau} \, dS_X(\lambda),
+    \end{equation}
+    где функция $ S_X(\lambda) $ неотрицательная, монотонно неубывающая, ограниченная и непрерывная слева,
+    то есть равная $ R_X(0) \cdot F(\lambda) $,
+    где $ F $~--- функция распределения \uline{некоторой} случайной величины.
+\end{theorem}
+
+\begin{definition}
+    \label{definition:stationarity:spectral_function}
+    Функция $ S_X(\lambda) $ в \eqref{equation:stationarity:stationary_process_correlation_function_spectral_representation}
+    теоремы \ref{theorem:stationarity:stationary_process_correlation_function_spectral_representation}
+    называется \defemph{спектральной функцией стационарного процесса $ X $}.
+    %\\[0.25\baselineskip]
+    Если $ S_X(\lambda) $ абсолютно непрерывна, то есть
+    \[
+        \exists s_X(a): \quad S_X(\lambda) = \int\limits_{-\infty}^\lambda s_X(a) \, da,
+    \]
+    то функция $ s_X(\lambda) $ называется \defemph{спектральной плотностью}.
+\end{definition}
+
+\begin{remark}
+    \label{remark:stationarity:spectral_density_Fourier}
+    В случае, когда есть спектральная плотность, корреляционная функция есть её преобразование Фурье:
+    \[
+        R_X(\tau) = \int_\reals e^{i \lambda \tau} s(\lambda) \, d \lambda
+    \]
+\end{remark}
+
+\begin{corollary}
+    \label{corollary:stationarity:L1_Fourier}
+    Если $ R_X(\tau) \in \lebesgue_1(\reals) $,
+    то спектральная функция $ S_X $ обладает спектральной плотностью
+    \[
+        s_X(\lambda) = \frac{1}{2 \pi} \int_\reals e^{-i \lambda \tau} R_X(\tau) \, d\tau
+    \]
+\end{corollary}
+
+\begin{proof}
+    Это прямое следствие из \ref{remark:stationarity:spectral_density_Fourier} и теоремы о существовании преобразования Фурье для $ \lebesgue_1 $-функций.
+\end{proof}
+
+
+\begin{exercise}
+    \label{exercise:stationarity:cosine_positive_semi_definite}
+    Является ли $ R(\tau) = \cos(\tau) $ неотрицательно определённой функцией?
+\end{exercise}
+
+\begin{solution}
+    Эрмитовость функции $ R(\tau) $ очевидна.
+    Проверять неотрицательную определённость напрямую неудобно.
+    Воспользуемся теоремой Бохнера-Хинчина:
+    $ R $ непрерывна, поэтому если она является корреляционной функцией,
+    то она имеет вид \eqref{equation:stationarity:stationary_process_correlation_function_spectral_representation}.
+    Достаточно подобрать подходящую $ S(\lambda) $.
+    Несложно заметить, что подходит ступенчатая функция с двумя скачками $ 1/2 $ в точках $ \pm 1 $.
+    Тогда интеграл \eqref{equation:stationarity:stationary_process_correlation_function_spectral_representation}
+    будет равен $ (e^{i \tau} + e^{-i \tau}) / 2 $, то есть $ \cos(\tau) $.
+    Значит, $ R $ является корреляционной функцией некоторого стационарного случайного процесса,
+    а потому неотрицательно определена.
+\end{solution}
+
+В чём смысл спектральной функции/спектральной плотности?
+Стационарный процесс можно представить в виде совокупности множества нескоррелированных стационарных процессов
+с гармоническими корреляционными функциями ($ e^{i \lambda \tau} $ или просто $ \cos(\lambda \tau) $).
+Спектральная плотность обозначает <<вес>> (в смысле $ \lebesgue_2 $) той или иной <<гармоники>> в общем <<сигнале>>.
+Если формализовать это интуитивное понимание, можно прийти к следующей теореме:
+
+\begin{theorem}[Крамер]
+    \label{theorem:stationarity:stochastic_spectral_decomposition}
+    Любому стационарному в широком смысле процессу $ X $ соответствует процесс
+    с ортогональными приращениями $ V_X(\lambda) $ такой, что с вероятностью $ 1 $ выполнено
+    \[
+        X_t = m_X + \int_\reals e^{i \lambda t} \, dV_X(\lambda),
+    \]
+    где $ m_X = \expect X_t = const $.
+    Процесс $ V_X $ определён по $ X $ однозначно с точностью до аддитивной случайной величины.
+\end{theorem}
+
+Оказывается, что спектральная функция $ S_X(\lambda) $ в
+\eqref{equation:stationarity:stationary_process_correlation_function_spectral_representation}
+связана с процессом $ V_X(\lambda) $.
+Выражение $ \nu([a, b]) = \expect |V_X(b) - V_X(a)|^2 $ можно рассматривать как меру.
+Оказывается, это та же самая мера, по которой ведётся интегрирование в интеграле Стилтьеса (по $ dS_X(\lambda) $).
+Это обстоятельство кратко записывают в виде $ \expect|dV_X(\lambda)|^2 = dS_X(\lambda) $.
+
+\begin{example}
+    \label{example:stationarity:Wiener_process_as_V}
+    Если в качестве $ V_X $ взять винеровский процесс $ W $, то $ \nu([a, b]) = b - a $.
+\end{example}
+
+Приведём полезные теоремы о внесении функций и производных под знак интеграла
+по случайному процессу с ортогональными приращениями:
+
+\begin{theorem}
+    \label{theorem:stationarity:spectral_functions_relation}
+    Пусть $ X $~--- стационарный процесс со спектральной функцией $ S_X(\lambda) $ и спектральным разложением
+    \[
+        X_t = \int_\reals e^{i \lambda t} \, dV_X(\lambda)
+    \]
+    Пусть $ \Phi(\lambda) $~--- неслучайная комплексная функция такая,
+    что $ \int_\reals |\Phi(\lambda)|^2 \, dS_X(\lambda) < +\infty $.
+    Пусть, наконец, процесс $ Y $ раскладывается в интеграл по тому же процессу $ V_X $ следующим образом:
+    \[
+        Y_t = \int_\reals e^{i \lambda t} \Phi(\lambda) \, dV_X(\lambda)
+    \]
+    Тогда спектральная функция $ S_Y $ связана c $ S_X $ соотношением $ dS_Y(\lambda) = |\Phi(\lambda)|^2 \cdot dS_X(\lambda) $
+    (в случае спектральных плотностей имеем $ s_Y(\lambda) = |\Phi(\lambda)|^2 \cdot s_X(\lambda) $).
+\end{theorem}
+
+\begin{theorem}
+    \label{theorem:stationarity:spectral_differentiation}
+    Если для некоторого $ k \geqslant 0 $ стационарный процесс $ X $ является $ k $ раз дифференцируемым в смысле среднего квадратичного,
+    и существует конечный интеграл $ \int_\reals \lambda^{2 k} \, dS_X(\lambda) $, то
+    \[
+        X_t^{(k)} = \int_\reals \left( \frac{\partial^k}{\partial t^k} e^{i \lambda t} \right) \, dV_X(\lambda) = \int_\reals e^{i \lambda t} (i \lambda)^k \, dV_X(\lambda)
+    \]
+\end{theorem}
+
+\begin{exercise}
+    \label{exercise:stationarity:linear_system}
+    Дана линейная система $ a_1 X_t' + a_0 X_t = Y_t $.
+    В предположении о существовании стационарного решения уравнения
+    вычислить спектральную плотность $ s_X(\lambda) $,
+    если известна спектральная плотность $ s_Y(\lambda) $, а также что $ \expect Y_t = 0 $.
+\end{exercise}
+
+\begin{solution}
+    Предполагая выполнение условий теорем \ref{theorem:stationarity:spectral_functions_relation} и \ref{theorem:stationarity:spectral_differentiation},
+    \[
+        X_t = \int_\reals e^{i \lambda t} \, dV_X(\lambda),
+        \quad
+        Y_t = \int_\reals e^{i \lambda t} \, dV_Y(\lambda)
+        \quad \Longrightarrow \quad
+        \int_\reals e^{i \lambda t} (a_1 i \lambda + a_0) \, dV_X(\lambda) = \int_\reals e^{i \lambda t} \, dV_Y(\lambda)
+    \]
+    Отсюда получаем, что $ s_Y(\lambda) = |a_1 i \lambda + a_0|^2 \cdot s_X(\lambda) $,
+    то есть $ s_X(\lambda) = \frac{s_Y(\lambda)}{a_1^2 \lambda^2 + a_0^2} $.
+\end{solution}

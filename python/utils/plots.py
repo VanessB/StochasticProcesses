@@ -3,7 +3,50 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plot_realizations(T, realizations, is_discrete=False, title="Реализации случайного процесса", **kwargs):
+def plot_realizations(T: np.array, realizations: np.ndarray,
+                      is_discrete: bool=False, title: str="Реализации случайного процесса", **kwargs):
+    """
+    Отрисовка реализаций слчайного процесса.
+    
+    Параметры
+    ---------
+    T : np.array
+        Сетка по времени.
+    realizations : np.ndarray
+        Данные о реализациях (ось 0: реализации, ось 1: точки выбранной реализации).
+    is_discrete : bool
+        Рисовать ли графики как траектории процесса с дискретными сечениями.
+    title : str
+        Заголовок графика.
+    """
+    
+    fig, ax = plt.subplots()
+
+    fig.set_figwidth(kwargs["width"] if "width" in kwargs else 16)
+    fig.set_figheight(kwargs["height"] if "height" in kwargs else 10)
+
+    # Сетка.
+    ax.grid(color='#000000', alpha=0.15, linestyle='-', linewidth=1, which='major')
+    ax.grid(color='#000000', alpha=0.1, linestyle='-', linewidth=0.5, which='minor')
+
+    ax.set_title(title)
+    ax.set_xlabel("$ t $")
+    ax.set_ylabel("$ X(\\omega) $")
+    
+    ax.minorticks_on()
+    
+    if is_discrete:
+        for realization in realizations:
+            ax.step(T, realization)
+    else:
+        for realization in realizations:
+            ax.plot(T, realization)
+
+    plt.show();
+    
+    
+
+def plot_realizations_heatmap(T, realizations, bandwidth=1.06, grid_size=41, title="Тепловая карта реализаций случайного процесса", **kwargs):
     """
     Отрисовка реализаций слчайного процесса.
     
@@ -32,12 +75,21 @@ def plot_realizations(T, realizations, is_discrete=False, title="Реализа�
     
     ax.minorticks_on()
     
-    if is_discrete:
-        for realization in realizations:
-            ax.step(T, realization)
-    else:
-        for realization in realizations:
-            ax.plot(T, realization)
+    # Разброс реализаций.
+    global_min = np.min(realizations)
+    global_max = np.max(realizations)
+    global_delta = global_max - global_min
+    
+    local_std = np.std(realizations, axis=0) + 1e-6
+    
+    # Сетка по оси значений сечений.
+    grid_X = np.linspace(global_min - 0.01 * global_delta, global_max + 0.01 * global_delta, grid_size)
+    
+    # Оценка плотности методом KDE с гауссовым ядром.
+    sigma = bandwidth * local_std / realizations.shape[0]**0.2
+    density = np.mean(np.exp(-0.5 * (realizations[:,:,None] - grid_X[None,None,:])**2 / (sigma**2)[None,:,None]), axis=0)# / (sigma[None,:,None] * np.sqrt(2.0 * np.pi)), axis=0)
+    
+    ax.contourf(T, grid_X, density.T, levels=(kwargs["levels"] if "levels" in kwargs else 10))
 
     plt.show();
 

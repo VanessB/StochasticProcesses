@@ -522,6 +522,85 @@
     Имеет ли она спектральную плотность?
 \end{exercise}
 
+\newpage
+
+
+
+
+\silentsection{Домашнее задание на седьмую неделю}
+\stepcounter{section}
+
+\begin{exercise}[subtitle={\canon}]
+    Показать, что для дискретной марковской цепи при $ t_1 < t_2 < t_3 $ выполнено равенство
+    \begin{multline*}
+        \proba \{X_{t_1} = x_1, X_{t_3} = x_3 \mid X_{t_2} = x_2\} = \\ =
+        \proba \{X_{t_1} = x_1 \mid X_{t_2} = x_2\} \cdot \proba (X_{t_3} = x_3 \mid X_{t_2} = x_2 \}.
+    \end{multline*}
+\end{exercise}
+
+
+\begin{exercise}[subtitle={\canon}]
+    Доказать, что условие
+    \begin{multline*}
+        \proba \{X_{t_n} = x_n \mid X_{t_{n-1}} = x_{n-1}, \ldots, X_{t_0} = x_0 \} = \\ =
+        \proba \{X_{t_n} = x_n \mid X_{t_{n-1}} = x_{n-1} \}
+    \end{multline*}
+    в определении марковской цепи равносильно условию
+    \[
+        \proba \{X_n = x_n \mid X_{n-1} = x_{n-1}, \ldots, X_0 = x_0 \} =
+        \proba \{X_n = x_n \mid X_{n-1} = x_{n-1} \}.
+    \]
+    Здесь $ T = \naturals_0 $, $ n \geqslant 1 $, $ t_0 < t_1 < \ldots < t_n $.
+\end{exercise}
+
+
+\begin{exercise}[subtitle={\canon}]
+    Пусть $ X_0, X_1, \ldots, X_n $~--- дискретная марковская цепь.
+    Является ли марковской последовательность $ X_n, X_{n-1}, \ldots, X_0 $?
+\end{exercise}
+
+
+\begin{exercise}[subtitle={\canon}]
+    Пусть $ \{X_n\} $~--- последовательность независимых одинаково распределенных случайных величин,
+    принимающих значения $ -1 $ и $ 1 $ с вероятностями $ p $ и $ q = 1 - p $ соответственно.
+    Выяснить, будет ли последовательность $ \{Y_n\} $ марковской цепью, если
+    \begin{enumerate}[label=\arabic*)]
+        \item $ Y_n = X_n X_{n+1} $;
+        \inlineitem $ \displaystyle Y_n = \max_{0 \leqslant i \leqslant n} X_i $;
+        \inlineitem $ \displaystyle Y_n = \prod_{i=0}^n X_i $.
+    \end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}[subtitle={\canon}]
+    Пусть $ \{X_n\} $ и $ \{Y_n\} $~--- две марковские цепи.
+    Будет ли марковской последовательность $ \{ X_n + Y_n \} $?
+\end{exercise}
+
+
+\begin{exercise}[subtitle={\canon}]
+    Пусть $ \{ X_n \} $~--- марковская цепь, а $ \psi(x) $~--- некоторая измеримая функция.
+    Будет ли последовательность $ \{ \psi(X_n) \} $ марковской цепью?
+\end{exercise}
+
+
+\begin{exercise}
+    В модели мутации типа вируса вирус либо сохраняет свой тип,
+    либо меняет его на случайно выбранный другой из $ n $ штук (всего $ n + 1 $ тип).
+    Матрица переходных вероятностей за один шаг есть
+    \[
+        P =
+        \begin{bmatrix}
+            1 - \alpha & \alpha / n & \alpha / n & \ldots & \alpha / n \\
+            \alpha / n & 1 - \alpha & \alpha / n & \ldots & \alpha / n \\
+            \ldots     & \ldots     & \ldots     & \ldots & \ldots     \\
+            \alpha / n & \alpha / n & \alpha / n & \ldots & 1 - \alpha \\
+        \end{bmatrix}
+    \]
+    Найдите вероятность вирусу типа $ 1 $ через $ n $ шагов снова оказаться типа $ 1 $.
+    \textit{Подсказка: состояния для удобства можно объединять.}
+\end{exercise}
+
 
 
 \end{document}
